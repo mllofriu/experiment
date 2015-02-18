@@ -8,9 +8,12 @@ import org.w3c.dom.Document;
 
 import edu.usf.experiment.plot.Plotter;
 import edu.usf.experiment.plot.PlotterLoader;
-import edu.usf.experiment.subject.ExpSubject;
+import edu.usf.experiment.subject.Subject;
+import edu.usf.experiment.subject.SubjectLoader;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
+import edu.usf.experiment.universe.Universe;
+import edu.usf.experiment.universe.UniverseLoader;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
 import edu.usf.experiment.utils.XMLDocReader;
@@ -59,8 +62,12 @@ public class Experiment extends PropertyHolder implements Runnable {
 		Document doc = XMLDocReader.readDocument(fullExpFileName);
 		ElementWrapper root = new ElementWrapper(doc.getDocumentElement());
 
-		// Load the especified subject and its trials
-		ExpSubject subject = loadSubjec(root, groupName, subjectName);
+		Universe universe = UniverseLoader.getInstance().load(root);
+		
+		// Load the subject using reflection and assign name and group 
+		Subject subject = SubjectLoader.getInstance().load(subjectName,groupName, root);
+		
+		// Load trials that apply to the subject
 		trials = loadTrials(root, subject);
 
 		// Load tasks and plotters
@@ -78,14 +85,14 @@ public class Experiment extends PropertyHolder implements Runnable {
 	 * @param subName
 	 * @return
 	 */
-	private ExpSubject loadSubjec(ElementWrapper root, String gName,
+	private Subject loadSubjec(ElementWrapper root, String gName,
 			String subName) {
 		List<ElementWrapper> groupNodes = root.getChildren("group");
 		// Look for the group of the individual to execute
 		for (ElementWrapper gNode : groupNodes) {
 			if (gNode.getChildText("name").equals(gName)) {
 				// Found the group
-				return new ExpSubject(subName, gName, gNode.getChild("model"));
+				return new Subject(subName, gName, gNode.getChild("model"));
 			}
 		}
 
@@ -100,7 +107,7 @@ public class Experiment extends PropertyHolder implements Runnable {
 	 * @param subject
 	 * @return
 	 */
-	private List<Trial> loadTrials(ElementWrapper root, ExpSubject subject) {
+	private List<Trial> loadTrials(ElementWrapper root, Subject subject) {
 		List<Trial> res = new LinkedList<Trial>();
 
 		List<ElementWrapper> trialNodes = root.getChildren("trial");

@@ -1,8 +1,10 @@
-package edu.usf.experiment.subject.model;
+package edu.usf.experiment.universe;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,21 +12,27 @@ import org.reflections.Reflections;
 
 import edu.usf.experiment.utils.ElementWrapper;
 
-public class ModelLoader {
+/**
+ * Loads a universe based on their non-fully qualified class name (simple name)
+ * 
+ * @author ludo
+ * 
+ */
+public class UniverseLoader {
 
-	private static ModelLoader instance;
+	private static UniverseLoader instance;
 	private Map<String, Class<?>> classBySimpleName;
 
-	public static ModelLoader getInstance() {
+	public static UniverseLoader getInstance() {
 		if (instance == null)
-			instance = new ModelLoader();
+			instance = new UniverseLoader();
 		return instance;
 	}
 
-	private ModelLoader() {
+	private UniverseLoader() {
 		Reflections reflections = new Reflections();
-		Set<Class<? extends Model>> allClasses = reflections
-				.getSubTypesOf(Model.class);
+		Set<Class<? extends Universe>> allClasses = reflections
+				.getSubTypesOf(Universe.class);
 		classBySimpleName = new HashMap<>();
 
 		for (Class<?> c : allClasses) {
@@ -32,13 +40,16 @@ public class ModelLoader {
 		}
 	}
 
-	public Model load(ElementWrapper modelNode) {
+	public Universe load(ElementWrapper root) {
+		ElementWrapper universeNode = root.getChild("universe");
 		try {
 			Constructor constructor;
-			constructor = classBySimpleName.get(modelNode.getChildText("name"))
-					.getConstructor();
-			Model model = (Model) constructor.newInstance();
-			return model;
+			constructor = classBySimpleName.get(
+					universeNode.getChildText("name")).getConstructor(
+					ElementWrapper.class);
+			Universe universe = (Universe) constructor.newInstance(universeNode
+					.getChild("params"));
+			return universe;
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -50,7 +61,6 @@ public class ModelLoader {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

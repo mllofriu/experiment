@@ -4,9 +4,11 @@ import java.util.List;
 
 import edu.usf.experiment.condition.Condition;
 import edu.usf.experiment.condition.ConditionLoader;
+import edu.usf.experiment.log.Logger;
+import edu.usf.experiment.log.LoggerLoader;
 import edu.usf.experiment.plot.Plotter;
 import edu.usf.experiment.plot.PlotterLoader;
-import edu.usf.experiment.subject.ExpSubject;
+import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
 import edu.usf.experiment.utils.ElementWrapper;
@@ -32,6 +34,7 @@ public class Episode extends PropertyHolder {
 	private List<Condition> stopConds;
 	private List<Task> beforeCycleTasks;
 	private List<Task> afterCycleTasks;
+	private List<Logger> loggers;
 
 	public Episode(ElementWrapper episodeNode, Trial trial, int episodeNumber) {
 		this.trial = trial;
@@ -49,6 +52,8 @@ public class Episode extends PropertyHolder {
 				episodeNode.getChild("plotters"));
 		stopConds = ConditionLoader.getInstance().load(
 				episodeNode.getChild("stopConditions"));
+		loggers = LoggerLoader.getInstance().load(episodeNode.getChild("loggers"));
+				
 	}
 
 	public void run() {
@@ -72,6 +77,9 @@ public class Episode extends PropertyHolder {
 			for (Task t : afterCycleTasks)
 				t.perform(this);
 			
+			for (Logger l : loggers)
+				l.log(this, getSubject());
+			
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)
 				finished = finished || sc.holds(this);
@@ -90,7 +98,7 @@ public class Episode extends PropertyHolder {
 				+ episodeNumber + " finished.");
 	}
 
-	public ExpSubject getSubject() {
+	public Subject getSubject() {
 		return trial.getSubject();
 	}
 

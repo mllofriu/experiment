@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.usf.experiment.plot.Plotter;
 import edu.usf.experiment.plot.PlotterLoader;
-import edu.usf.experiment.subject.ExpSubject;
+import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
 import edu.usf.experiment.utils.ElementWrapper;
@@ -23,14 +23,14 @@ import edu.usf.experiment.utils.ElementWrapper;
 public class Trial implements Runnable {
 	public static boolean cont;
 	private String name;
-	private ExpSubject subject;
+	private Subject subject;
 
 	private List<Task> beforeTasks;
 	private List<Plotter> plotters;
 	private List<Episode> episodes;
 	private List<Task> afterTasks;
 
-	public Trial(ElementWrapper trialNode, String group, ExpSubject subject) {
+	public Trial(ElementWrapper trialNode, String group, Subject subject) {
 		super();
 		// Trial is identified by its logpath
 		this.name = trialNode.getChildText("name");
@@ -79,7 +79,7 @@ public class Trial implements Runnable {
 		return name;
 	}
 
-	public ExpSubject getSubject() {
+	public Subject getSubject() {
 		return subject;
 	}
 

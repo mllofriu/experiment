@@ -2,15 +2,18 @@
 <!-- Just a test of new format -->
 
 <experiment>
+	<universe>
+		<name>DummyUniverse</name>
+	</universe>
+	
+	<subject>
+		<name>DummySubject</name>
+	</subject>
+	
 	<group>
 		<name>A</name>
 		<numMembers>1</numMembers>
-		<model>
-			<name>DummyModel</name>
-			<params>
-				<text>Params for Group A</text>
-			</params>
-		</model>
+		<params></params>
 		<tasks>
 		</tasks>
 	</group>
@@ -76,6 +79,12 @@
 					</params>
 				</task>
 			</afterCycleTasks>
+			<loggers>
+				<logger>
+					<name>DummyLogger</name>
+					<params></params>
+				</logger>
+			</loggers>
 			<afterTasks>
 				<task>
 					<name>DummyTask</name>
