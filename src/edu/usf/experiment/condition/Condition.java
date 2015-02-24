@@ -11,6 +11,6 @@ import edu.usf.experiment.Episode;
  */
 public interface Condition {
 
-	public boolean holds(Episode episode);
+	public boolean holds(Episode e);
 
 }

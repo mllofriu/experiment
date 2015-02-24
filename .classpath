@@ -7,7 +7,14 @@
 	<classpathentry kind="lib" path="deps/guava-18.0.jar"/>
 	<classpathentry kind="lib" path="deps/slf4j-api-1.7.10.jar"/>
 	<classpathentry kind="lib" path="deps/javassist.jar"/>
-	<classpathentry kind="lib" path="deps/vecmath.jar"/>
 	<classpathentry kind="lib" path="deps/jts-1.8.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/gluegen.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/j3dcore.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/j3dutils.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/joal.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/jocl.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/jogl-all.jar"/>
+	<classpathentry kind="lib" path="/Users/ludo/Documents/workspace/rat_simulator/deps/j3dport/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

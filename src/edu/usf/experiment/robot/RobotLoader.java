@@ -1,15 +1,14 @@
-package edu.usf.experiment.universe;
+package edu.usf.experiment.robot;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.reflections.Reflections;
 
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -18,21 +17,21 @@ import edu.usf.experiment.utils.ElementWrapper;
  * @author ludo
  * 
  */
-public class UniverseLoader {
+public class RobotLoader {
 
-	private static UniverseLoader instance;
+	private static RobotLoader instance;
 	private Map<String, Class<?>> classBySimpleName;
 
-	public static UniverseLoader getInstance() {
+	public static RobotLoader getInstance() {
 		if (instance == null)
-			instance = new UniverseLoader();
+			instance = new RobotLoader();
 		return instance;
 	}
 
-	private UniverseLoader() {
+	private RobotLoader() {
 //		Reflections reflections = new Reflections();
-//		Set<Class<? extends Universe>> allClasses = reflections
-//				.getSubTypesOf(Universe.class);
+//		Set<Class<? extends Robot>> allClasses = reflections
+//				.getSubTypesOf(Robot.class);
 //		classBySimpleName = new HashMap<>();
 //
 //		for (Class<?> c : allClasses) {
@@ -40,19 +39,19 @@ public class UniverseLoader {
 //		}
 	}
 
-	public Universe load(ElementWrapper root) {
-		ElementWrapper universeNode = root.getChild("universe");
+	public Robot load(ElementWrapper root) {
+		ElementWrapper robotNode = root.getChild("robot");
 		try {
 			Constructor constructor;
 //			constructor = classBySimpleName.get(
-//					universeNode.getChildText("name")).getConstructor(
+//					robotNode.getChildText("name")).getConstructor(
 //					ElementWrapper.class);
 			constructor = Class.forName(
-					universeNode.getChildText("name")).getConstructor(
+					robotNode.getChildText("name")).getConstructor(
 					ElementWrapper.class);
-			Universe universe = (Universe) constructor.newInstance(universeNode
+			Robot robot = (Robot) constructor.newInstance(robotNode
 					.getChild("params"));
-			return universe;
+			return robot;
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {

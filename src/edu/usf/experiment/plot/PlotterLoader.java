@@ -24,14 +24,14 @@ public class PlotterLoader {
 	}
 
 	private PlotterLoader() {
-		Reflections reflections = new Reflections();
-		Set<Class<? extends Plotter>> allClasses = reflections
-				.getSubTypesOf(Plotter.class);
-		classBySimpleName = new HashMap<>();
-
-		for (Class<?> c : allClasses) {
-			classBySimpleName.put(c.getSimpleName(), c);
-		}
+//		Reflections reflections = new Reflections();
+//		Set<Class<? extends Plotter>> allClasses = reflections
+//				.getSubTypesOf(Plotter.class);
+//		classBySimpleName = new HashMap<>();
+//
+//		for (Class<?> c : allClasses) {
+//			classBySimpleName.put(c.getSimpleName(), c);
+//		}
 	}
 
 	public List<Plotter> load(ElementWrapper plotterNodes) {
@@ -40,7 +40,10 @@ public class PlotterLoader {
 		for (ElementWrapper plotterNode : plotterList) {
 			try {
 				Constructor constructor;
-				constructor = classBySimpleName.get(
+//				constructor = classBySimpleName.get(
+//						plotterNode.getChildText("name")).getConstructor(
+//						ElementWrapper.class);
+				constructor = Class.forName(
 						plotterNode.getChildText("name")).getConstructor(
 						ElementWrapper.class);
 				Plotter plotter = (Plotter) constructor.newInstance(plotterNode
@@ -55,6 +58,9 @@ public class PlotterLoader {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

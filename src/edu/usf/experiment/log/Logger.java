@@ -6,7 +6,7 @@ import edu.usf.experiment.subject.Subject;
 
 public interface Logger {
 
-	public void log(Episode episode, Subject subject);
+	public void log(Episode episode);
 
 	public void finalizeLog();
 

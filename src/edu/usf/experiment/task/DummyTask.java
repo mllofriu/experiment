@@ -5,11 +5,12 @@ import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.utils.ElementWrapper;
 
-public class DummyTask implements Task {
+public class DummyTask extends Task {
 
 	private String text;
 
 	public DummyTask(ElementWrapper params) {
+		super(params);
 		System.out.println("Creating a dummy task");
 		text = params.getChildText("text");
 	}

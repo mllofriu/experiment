@@ -8,6 +8,8 @@ import org.w3c.dom.Document;
 
 import edu.usf.experiment.plot.Plotter;
 import edu.usf.experiment.plot.PlotterLoader;
+import edu.usf.experiment.robot.Robot;
+import edu.usf.experiment.robot.RobotLoader;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.SubjectLoader;
 import edu.usf.experiment.task.Task;
@@ -28,31 +30,36 @@ import edu.usf.experiment.utils.XMLDocReader;
  * @author gtejera,mllofriu
  *
  */
-public class Experiment extends PropertyHolder implements Runnable {
+public class Experiment implements Runnable {
 
 	private List<Trial> trials;
 	private List<Task> beforeTasks;
 	private List<Task> afterTasks;
 	private List<Plotter> plotters;
+	private Universe universe;
 
 	public Experiment(String experimentFile, String logPath, String groupName,
 			String subjectName) {
+		System.out.println(System.getProperty("java.class.path"));
 		System.out.println("Starting group " + groupName + " individual "
 				+ " in log " + logPath);
 
 		logPath = logPath + File.separator + groupName + File.separator
 				+ subjectName + File.separator;
 
-		setProperty("log.directory", logPath);
-
 		// Halt execution if log folder is already there
 		File file = new File(logPath);
 		if (file.exists()) {
 			System.err.println("Logpath already exists. Cannot execute.");
-//			System.exit(1);
+			// System.exit(1);
 		} else {
 			file.mkdirs();
 		}
+
+		PropertyHolder props = PropertyHolder.getInstance();
+		props.setProperty("log.directory", logPath);
+		props.setProperty("group", groupName);
+		props.setProperty("subject", subjectName);
 
 		// Read experiments from xml file
 		String fullExpFileName = logPath + "experiment.xml";
@@ -62,13 +69,15 @@ public class Experiment extends PropertyHolder implements Runnable {
 		Document doc = XMLDocReader.readDocument(fullExpFileName);
 		ElementWrapper root = new ElementWrapper(doc.getDocumentElement());
 
-		Universe universe = UniverseLoader.getInstance().load(root);
+		universe = UniverseLoader.getInstance().load(root);
 		
-		// Load the subject using reflection and assign name and group 
-		Subject subject = SubjectLoader.getInstance().load(subjectName,groupName, root);
-		
+		Robot robot = RobotLoader.getInstance().load(root);
+
+		// Load the subject using reflection and assign name and group
+		Subject subject = loadSubject(root, groupName, subjectName, robot);
+
 		// Load trials that apply to the subject
-		trials = loadTrials(root, subject);
+		trials = loadTrials(root, subject, universe);
 
 		// Load tasks and plotters
 		beforeTasks = TaskLoader.getInstance().load(
@@ -83,16 +92,17 @@ public class Experiment extends PropertyHolder implements Runnable {
 	 * @param root
 	 * @param gName
 	 * @param subName
+	 * @param robot 
 	 * @return
 	 */
-	private Subject loadSubjec(ElementWrapper root, String gName,
-			String subName) {
+	private Subject loadSubject(ElementWrapper root, String gName,
+			String subName, Robot robot) {
 		List<ElementWrapper> groupNodes = root.getChildren("group");
 		// Look for the group of the individual to execute
 		for (ElementWrapper gNode : groupNodes) {
 			if (gNode.getChildText("name").equals(gName)) {
 				// Found the group
-				return new Subject(subName, gName, gNode.getChild("model"));
+				return SubjectLoader.getInstance().load(subName, gName, gNode, robot);
 			}
 		}
 
@@ -105,9 +115,11 @@ public class Experiment extends PropertyHolder implements Runnable {
 	 * 
 	 * @param root
 	 * @param subject
+	 * @param universe
 	 * @return
 	 */
-	private List<Trial> loadTrials(ElementWrapper root, Subject subject) {
+	private List<Trial> loadTrials(ElementWrapper root, Subject subject,
+			Universe universe) {
 		List<Trial> res = new LinkedList<Trial>();
 
 		List<ElementWrapper> trialNodes = root.getChildren("trial");
@@ -120,7 +132,7 @@ public class Experiment extends PropertyHolder implements Runnable {
 				String groupName = groupNode.getText();
 				// For each subject in the group
 				if (groupName.equals(subject.getGroup())) {
-					res.add(new Trial(trialNode, subject.getGroup(), subject));
+					res.add(new Trial(trialNode, subject, universe));
 				}
 			}
 		}
@@ -159,5 +171,9 @@ public class Experiment extends PropertyHolder implements Runnable {
 		e.run();
 
 		System.exit(0);
+	}
+
+	public Universe getUniverse() {
+		return universe;
 	}
 }

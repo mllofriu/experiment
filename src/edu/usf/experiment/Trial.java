@@ -8,6 +8,7 @@ import edu.usf.experiment.plot.PlotterLoader;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -21,7 +22,6 @@ import edu.usf.experiment.utils.ElementWrapper;
  * 
  */
 public class Trial implements Runnable {
-	public static boolean cont;
 	private String name;
 	private Subject subject;
 
@@ -29,13 +29,14 @@ public class Trial implements Runnable {
 	private List<Plotter> plotters;
 	private List<Episode> episodes;
 	private List<Task> afterTasks;
+	private Universe universe;
 
-	public Trial(ElementWrapper trialNode, String group, Subject subject) {
+	public Trial(ElementWrapper trialNode, Subject subject,
+			Universe universe) {
 		super();
-		// Trial is identified by its logpath
 		this.name = trialNode.getChildText("name");
 		this.subject = subject;
-		Trial.cont = true;
+		this.universe = universe;
 
 		beforeTasks = TaskLoader.getInstance().load(
 				trialNode.getChild("beforeTasks"));
@@ -55,6 +56,9 @@ public class Trial implements Runnable {
 		// Lock on the subject to ensure mutual exclusion for the same rat
 		// Assumes is fifo
 		synchronized (getSubject()) {
+			PropertyHolder props = PropertyHolder.getInstance();
+			props.setProperty("trial", name);
+			
 			// Do all before trial tasks
 			for (Task task : beforeTasks)
 				task.perform(this);
@@ -93,5 +97,9 @@ public class Trial implements Runnable {
 
 	public String toString() {
 		return name;
+	}
+
+	public Universe getUniverse() {
+		return universe;
 	}
 }

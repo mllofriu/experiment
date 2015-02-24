@@ -12,7 +12,7 @@ public class DummyLogger implements Logger {
 	}
 	
 	@Override
-	public void log(Episode episode, Subject subject) {
+	public void log(Episode episode) {
 		System.out.println("Logging");
 	}
 

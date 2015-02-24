@@ -11,6 +11,7 @@ import edu.usf.experiment.plot.PlotterLoader;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -24,7 +25,7 @@ import edu.usf.experiment.utils.ElementWrapper;
  * @author mllofriu
  *
  */
-public class Episode extends PropertyHolder {
+public class Episode {
 
 	private Trial trial;
 	private int episodeNumber;
@@ -57,6 +58,9 @@ public class Episode extends PropertyHolder {
 	}
 
 	public void run() {
+		PropertyHolder props = PropertyHolder.getInstance();
+		props.setProperty("episode", new Integer(episodeNumber).toString());
+		
 		System.out.println("Episode " + trial.getName() + " "
 				+ trial.getGroup() + " " + trial.getSubjectName() + " "
 				+ episodeNumber + " started.");
@@ -78,7 +82,7 @@ public class Episode extends PropertyHolder {
 				t.perform(this);
 			
 			for (Logger l : loggers)
-				l.log(this, getSubject());
+				l.log(this);
 			
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)
@@ -100,6 +104,10 @@ public class Episode extends PropertyHolder {
 
 	public Subject getSubject() {
 		return trial.getSubject();
+	}
+
+	public Universe getUniverse() {
+		return trial.getUniverse();
 	}
 
 }

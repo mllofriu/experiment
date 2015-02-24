@@ -1,0 +1,21 @@
+package edu.usf.experiment.subject.affordance;
+
+public class ForwardAffordance extends Affordance {
+
+	private float distance;
+
+	public ForwardAffordance(float distance) {
+		super();
+
+		this.distance = distance;
+	}
+
+	public float getDistance() {
+		return distance;
+	}
+
+	public void setDistance(float distance) {
+		this.distance = distance;
+	}
+
+}

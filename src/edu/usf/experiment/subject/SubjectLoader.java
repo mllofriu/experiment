@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+import edu.usf.experiment.robot.Robot;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -30,27 +31,31 @@ public class SubjectLoader {
 	}
 
 	private SubjectLoader() {
-		Reflections reflections = new Reflections();
-		Set<Class<? extends Subject>> allClasses = reflections
-				.getSubTypesOf(Subject.class);
-		classBySimpleName = new HashMap<>();
-
-		for (Class<?> c : allClasses) {
-			classBySimpleName.put(c.getSimpleName(), c);
-		}
+//		Reflections reflections = new Reflections();
+//		Set<Class<? extends Subject>> allClasses = reflections
+//				.getSubTypesOf(Subject.class);
+//		classBySimpleName = new HashMap<>();
+//
+//		for (Class<?> c : allClasses) {
+//			classBySimpleName.put(c.getSimpleName(), c);
+//		}
 	}
 
 	public Subject load(String subjectName, String groupName,
-			ElementWrapper root) {
-		ElementWrapper universeNode = root.getChild("subject");
+			ElementWrapper root, Robot robot) {
+		ElementWrapper subjectNode = root.getChild("subject");
 		try {
 			Constructor constructor;
-			constructor = classBySimpleName.get(
-					universeNode.getChildText("name")).getConstructor(
-					String.class, String.class, ElementWrapper.class);
-			Subject universe = (Subject) constructor.newInstance(subjectName,
-					groupName, universeNode.getChild("params"));
-			return universe;
+			String name = subjectNode.getChildText("name");
+//			constructor = classBySimpleName.get(name).getConstructor(
+//					String.class, String.class, ElementWrapper.class,
+//					Robot.class);
+			constructor = Class.forName(name).getConstructor(
+					String.class, String.class, ElementWrapper.class,
+					Robot.class);
+			Subject sub = (Subject) constructor.newInstance(subjectName,
+					groupName, subjectNode.getChild("params"), robot);
+			return sub;
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -60,6 +65,9 @@ public class SubjectLoader {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

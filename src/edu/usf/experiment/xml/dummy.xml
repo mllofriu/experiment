@@ -4,28 +4,36 @@
 <experiment>
 	<universe>
 		<name>DummyUniverse</name>
+		<params>
+			<closeToFoodThrs>0.2</closeToFoodThrs>
+		</params>
 	</universe>
 	
-	<subject>
-		<name>DummySubject</name>
-	</subject>
+	<robot>
+		<name>Robot</name>
+		<params>
+		</params>
+	</robot>
 	
 	<group>
 		<name>A</name>
 		<numMembers>1</numMembers>
-		<params></params>
+		<subject>
+			<name>DummySubject</name>
+			<params>
+			</params>
+		</subject>
 		<tasks>
 		</tasks>
 	</group>
 	<group>
 		<name>B</name>
 		<numMembers>1</numMembers>
-		<model>
-			<name>DummyModel</name>
+		<subject>
+			<name>DummySubject</name>
 			<params>
-				<text>Params for Group B</text>
 			</params>
-		</model>
+		</subject>
 		<tasks>
 		</tasks>
 	</group>
@@ -82,7 +90,8 @@
 			<loggers>
 				<logger>
 					<name>DummyLogger</name>
-					<params></params>
+					<params>
+					</params>
 				</logger>
 			</loggers>
 			<afterTasks>

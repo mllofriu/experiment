@@ -29,28 +29,30 @@ public class LoggerLoader {
 	}
 
 	private LoggerLoader() {
-		Reflections reflections = new Reflections();
-		Set<Class<? extends Logger>> allClasses = reflections
-				.getSubTypesOf(Logger.class);
-		classBySimpleName = new HashMap<>();
-
-		for (Class<?> c : allClasses) {
-			classBySimpleName.put(c.getSimpleName(), c);
-		}
+//		Reflections reflections = new Reflections();
+//		Set<Class<? extends Logger>> allClasses = reflections
+//				.getSubTypesOf(Logger.class);
+//		classBySimpleName = new HashMap<>();
+//
+//		for (Class<?> c : allClasses) {
+//			classBySimpleName.put(c.getSimpleName(), c);
+//		}
 	}
 
-	public List<Logger> load(ElementWrapper conditionNodes) {
+	public List<Logger> load(ElementWrapper loggerNodes) {
 		List<Logger> res = new LinkedList<Logger>();
-		List<ElementWrapper> conditionList = conditionNodes
+		List<ElementWrapper> loggerList = loggerNodes
 				.getChildren("logger");
-		for (ElementWrapper conditionNode : conditionList) {
+		for (ElementWrapper loggerNode : loggerList) {
 			try {
 				Constructor constructor;
-				constructor = classBySimpleName.get(
-						conditionNode.getChildText("name")).getConstructor(
+//				constructor = classBySimpleName.get(
+//						conditionNode.getChildText("name")).getConstructor(
+//						ElementWrapper.class);
+				constructor = Class.forName(loggerNode.getChildText("name")).getConstructor(
 						ElementWrapper.class);
 				Logger plotter = (Logger) constructor
-						.newInstance(conditionNode.getChild("params"));
+						.newInstance(loggerNode.getChild("params"));
 				res.add(plotter);
 			} catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
@@ -61,6 +63,9 @@ public class LoggerLoader {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

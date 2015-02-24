@@ -3,13 +3,18 @@ package edu.usf.experiment.task;
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
+import edu.usf.experiment.utils.ElementWrapper;
 
-public interface Task {
+public abstract class Task {
 
-	void perform(Experiment experiments);
+	public Task(ElementWrapper params) {
 
-	void perform(Trial trial);
+	}
 
-	void perform(Episode episode);
+	public abstract void perform(Experiment experiment);
+
+	public abstract void perform(Trial trial);
+
+	public abstract void perform(Episode episode);
 
 }

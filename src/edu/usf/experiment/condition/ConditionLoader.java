@@ -29,14 +29,14 @@ public class ConditionLoader {
 	}
 
 	private ConditionLoader() {
-		Reflections reflections = new Reflections();
-		Set<Class<? extends Condition>> allClasses = reflections
-				.getSubTypesOf(Condition.class);
-		classBySimpleName = new HashMap<>();
-
-		for (Class<?> c : allClasses) {
-			classBySimpleName.put(c.getSimpleName(), c);
-		}
+//		Reflections reflections = new Reflections();
+//		Set<Class<? extends Condition>> allClasses = reflections
+//				.getSubTypesOf(Condition.class);
+//		classBySimpleName = new HashMap<>();
+//
+//		for (Class<?> c : allClasses) {
+//			classBySimpleName.put(c.getSimpleName(), c);
+//		}
 	}
 
 	public List<Condition> load(ElementWrapper conditionNodes) {
@@ -46,7 +46,10 @@ public class ConditionLoader {
 		for (ElementWrapper conditionNode : conditionList) {
 			try {
 				Constructor constructor;
-				constructor = classBySimpleName.get(
+//				constructor = classBySimpleName.get(
+//						conditionNode.getChildText("name")).getConstructor(
+//						ElementWrapper.class);
+				constructor = Class.forName(
 						conditionNode.getChildText("name")).getConstructor(
 						ElementWrapper.class);
 				Condition plotter = (Condition) constructor
@@ -61,6 +64,9 @@ public class ConditionLoader {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
