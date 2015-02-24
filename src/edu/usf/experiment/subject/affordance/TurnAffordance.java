@@ -23,4 +23,9 @@ public class TurnAffordance extends Affordance {
 	public float getDistance() {
 		return distance;
 	}
+
+	@Override
+	public String toString() {
+		return "Rotate " + angle + " rads";
+	}
 }

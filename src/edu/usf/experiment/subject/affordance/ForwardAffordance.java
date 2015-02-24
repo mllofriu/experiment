@@ -18,4 +18,9 @@ public class ForwardAffordance extends Affordance {
 		this.distance = distance;
 	}
 
+	@Override
+	public String toString() {
+		return "Forward " + distance + " mts.";
+	}
+
 }

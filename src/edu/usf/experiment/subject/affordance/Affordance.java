@@ -41,5 +41,7 @@ public abstract class Affordance implements Comparable<Affordance> {
 			else
 				return 1;
 	}
+	
+	public abstract String toString();
 
 }
