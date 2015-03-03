@@ -1,5 +1,6 @@
 package edu.usf.experiment.universe;
 
+import java.awt.geom.Point2D.Float;
 import java.awt.geom.Rectangle2D;
 
 import javax.vecmath.Point3f;
@@ -32,5 +33,11 @@ public class DummyUniverse extends Universe {
 	@Override
 	public float getRobotOrientationAngle() {
 		return 0;
+	}
+
+	@Override
+	public void setRobotPosition(Float float1, float w) {
+		// TODO Auto-generated method stub
+		
 	}
 }

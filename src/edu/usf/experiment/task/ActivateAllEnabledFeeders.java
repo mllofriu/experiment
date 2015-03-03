@@ -12,9 +12,9 @@ import edu.usf.experiment.utils.ElementWrapper;
  * @author ludo
  *
  */
-public class ActivateAllFeeders extends Task {
+public class ActivateAllEnabledFeeders extends Task {
 
-	public ActivateAllFeeders(ElementWrapper params) {
+	public ActivateAllEnabledFeeders(ElementWrapper params) {
 		super(params);
 	}
 

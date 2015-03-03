@@ -23,4 +23,9 @@ public class ForwardAffordance extends Affordance {
 		return "Forward " + distance + " mts.";
 	}
 
+	@Override
+	public int getIndex() {
+		return 1;
+	}
+
 }

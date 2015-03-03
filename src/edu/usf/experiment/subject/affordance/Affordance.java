@@ -44,4 +44,6 @@ public abstract class Affordance implements Comparable<Affordance> {
 	
 	public abstract String toString();
 
+	public abstract int getIndex();
+
 }

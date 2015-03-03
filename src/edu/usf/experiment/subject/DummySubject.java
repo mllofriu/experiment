@@ -42,5 +42,11 @@ public class DummySubject extends Subject {
 		return null;
 	}
 
+	@Override
+	public float getMinAngle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 }

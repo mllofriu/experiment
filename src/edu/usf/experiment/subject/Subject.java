@@ -65,4 +65,6 @@ public abstract class Subject {
 
 	public abstract List<Affordance> getPossibleAffordances();
 
+	public abstract float getMinAngle() ;
+
 }

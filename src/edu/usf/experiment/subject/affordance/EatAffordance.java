@@ -7,4 +7,9 @@ public class EatAffordance extends Affordance {
 		return "Eat affordance";
 	}
 
+	@Override
+	public int getIndex() {
+		return 3;
+	}
+
 }

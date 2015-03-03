@@ -28,4 +28,13 @@ public class TurnAffordance extends Affordance {
 	public String toString() {
 		return "Rotate " + angle + " rads";
 	}
+
+	@Override
+	public int getIndex() {
+		// Positive angles (left) are 0 affordance
+		if (angle > 0)
+			return 0;
+		else
+			return 2;
+	}
 }

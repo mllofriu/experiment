@@ -48,7 +48,7 @@ public class Trial implements Runnable {
 		episodes = new LinkedList<Episode>();
 		int numEpisodes = trialNode.getChild("episodes").getChildInt("number");
 		for (int i = 0; i < numEpisodes; i++)
-			episodes.add(new Episode(trialNode, this, i));
+			episodes.add(new Episode(trialNode.getChild("episodes"), this, i));
 	}
 
 	public void run() {

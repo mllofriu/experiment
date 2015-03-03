@@ -1,5 +1,6 @@
 package edu.usf.experiment.universe;
 
+import java.awt.geom.Point2D.Float;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
@@ -177,7 +178,7 @@ public abstract class Universe {
 	public boolean hasRobotFoundFeeder(int i) {
 		Point3f robot = getRobotPosition();
 		Feeder f = feeders.get(i);
-		return robot.distance(new Point3f(f.getPosition())) < CLOSE_TO_FOOD_THRS;
+		return robot.distance(f.getPosition()) < CLOSE_TO_FOOD_THRS;
 	}
 
 	public boolean isRobotCloseToAFeeder() {
@@ -220,5 +221,7 @@ public abstract class Universe {
 	public void setBoundingRect(Rectangle2D.Float boundingRect) {
 		this.boundingRect = boundingRect;
 	}
+
+	public abstract void setRobotPosition(Float float1, float w);
 
 }
