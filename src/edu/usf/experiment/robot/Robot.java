@@ -2,6 +2,7 @@ package edu.usf.experiment.robot;
 
 import java.util.List;
 
+import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -72,5 +73,5 @@ public abstract class Robot {
 	 */
 	public abstract List<Affordance> checkAffordances(List<Affordance> possibleAffordances);
 
-	public abstract void executeAffordance(Affordance selectedAction);
+	public abstract void executeAffordance(Affordance selectedAction, Subject sub);
 }

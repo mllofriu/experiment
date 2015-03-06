@@ -68,6 +68,8 @@ public class Episode {
 		// Do all before trial tasks
 		for (Task task : beforeTasks)
 			task.perform(this);
+		
+		getSubject().newEpisode();
 
 		// Execute cycles until stop condition holds
 		boolean finished = false;
@@ -88,6 +90,10 @@ public class Episode {
 			for (Condition sc : stopConds)
 				finished = finished || sc.holds(this);
 		}
+		
+		// Finalize loggers
+		for (Logger l : loggers)
+			l.finalizeLog();
 
 		// After trial tasks
 		for (Task task : afterTasks)

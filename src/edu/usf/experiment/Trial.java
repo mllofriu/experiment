@@ -62,6 +62,8 @@ public class Trial implements Runnable {
 			// Do all before trial tasks
 			for (Task task : beforeTasks)
 				task.perform(this);
+			
+			getSubject().newTrial();
 
 			// Run each episode
 			for (Episode episode : episodes) {

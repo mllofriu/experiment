@@ -11,11 +11,14 @@ public abstract class Subject {
 	private String name;
 	private String group;
 	private Robot robot;
+	private boolean hasEaten;
 
 	public Subject(String name, String group, ElementWrapper modelParams, Robot robot) {
 		this.name = name;
 		this.group = group;
 		this.robot = robot;
+		
+		hasEaten = false;
 	}
 
 	/**
@@ -49,7 +52,9 @@ public abstract class Subject {
 	 * Returns whether the subject has eaten in the last iteration
 	 * @return
 	 */
-	public abstract boolean hasEaten();
+	public boolean hasEaten(){
+		return hasEaten;
+	}
 	
 	/**
 	 * Returns true if the subject has tried to eat, regardless of whether it could eat or not
@@ -66,5 +71,13 @@ public abstract class Subject {
 	public abstract List<Affordance> getPossibleAffordances();
 
 	public abstract float getMinAngle() ;
+	
+	public abstract void newEpisode();
+	
+	public abstract void newTrial();
+
+	public void setHasEaten(boolean b) {
+		hasEaten = b;
+	}
 
 }

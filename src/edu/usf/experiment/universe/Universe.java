@@ -5,10 +5,15 @@ import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.j3d.Transform3D;
 import javax.vecmath.Point3f;
 import javax.vecmath.Quat4f;
+import javax.vecmath.Vector3f;
 
 import org.w3c.dom.Document;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.LineSegment;
 
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.ElementWrapper;
@@ -223,5 +228,9 @@ public abstract class Universe {
 	}
 
 	public abstract void setRobotPosition(Float float1, float w);
+
+	public List<Wall> getWalls() {
+		return walls;
+	}
 
 }

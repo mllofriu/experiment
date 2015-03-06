@@ -14,12 +14,13 @@ import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.ElementWrapper;
 
-public abstract class PositionLogger implements Logger {
+public abstract class PositionLogger extends Logger {
 
 	private List<Pose> poses;
 	private static PrintWriter writer = null;
 	
 	public PositionLogger(ElementWrapper params){
+		super(params);
 		poses = new LinkedList<Pose>();
 	}
 
@@ -40,33 +41,10 @@ public abstract class PositionLogger implements Logger {
 		}
 	}
 
-	private PrintWriter getWriter() {
-		if (writer == null) {
-			try {
-				// Writer with auto flush
-				String logDir = PropertyHolder.getInstance().getProperty("log.directory");
-				writer = new PrintWriter(new OutputStreamWriter(
-						new FileOutputStream(new File(logDir + getFileName()))),
-						true);
-				writer.println("trial\tgroup\tsubject\trepetition\tx\ty\trandom");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-		return writer;
-	}
-
-	public abstract String getFileName();
-
 	public void addPose(Pose p){
 		poses.add(p);
 	}
 	
-	@Override
-	public abstract void log(Episode episode);
 
 }
 

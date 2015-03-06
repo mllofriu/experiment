@@ -26,7 +26,12 @@ public class SubjectPositionLogger extends PositionLogger {
 
 	@Override
 	public String getFileName() {
-		return "subjposition.txt";
+		return "subjposition.csv";
+	}
+
+	@Override
+	public String getHeader() {
+		return "trial\tgroup\tsubject\trepetition\tx\ty\trandom";
 	}
 
 }

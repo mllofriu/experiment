@@ -15,8 +15,13 @@ public class ElementWrapper {
 	}
 
 	public ElementWrapper getChild(String name) {
-		return new ElementWrapper((Element) e.getElementsByTagName(name)
-				.item(0));
+		NodeList elems = e.getElementsByTagName(name);
+		for (int i = 0; i < elems.getLength(); i++)
+			// Only return direct sibling
+			if (elems.item(i).getParentNode() == e)
+				return new ElementWrapper((Element)elems.item(i));
+		
+		return null;
 	}
 
 	public List<ElementWrapper> getChildren(String name) {
@@ -33,7 +38,13 @@ public class ElementWrapper {
 	}
 
 	public String getChildText(String name) {
-		return e.getElementsByTagName(name).item(0).getTextContent();
+		NodeList elems = e.getElementsByTagName(name);
+		for (int i = 0; i < elems.getLength(); i++)
+			// Only return direct sibling
+			if (elems.item(i).getParentNode() == e)
+				return elems.item(i).getTextContent();
+		
+		return null;
 	}
 
 	public int getChildInt(String name) {

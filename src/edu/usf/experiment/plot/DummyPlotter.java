@@ -2,9 +2,10 @@ package edu.usf.experiment.plot;
 
 import edu.usf.experiment.utils.ElementWrapper;
 
-public class DummyPlotter implements Plotter {
+public class DummyPlotter extends Plotter {
 
 	public DummyPlotter(ElementWrapper params) {
+		super(params);
 		System.out.println("Creating a dummy plotter");
 	}
 

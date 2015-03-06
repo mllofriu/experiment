@@ -20,7 +20,12 @@ public class UniversePositionLogger extends PositionLogger {
 
 	@Override
 	public String getFileName() {
-		return "univposition.txt";
+		return "univposition.csv";
+	}
+	
+	@Override
+	public String getHeader() {
+		return "trial\tgroup\tsubject\trepetition\tx\ty\trandom";
 	}
 
 }

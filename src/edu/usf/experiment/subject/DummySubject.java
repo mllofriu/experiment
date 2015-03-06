@@ -48,5 +48,17 @@ public class DummySubject extends Subject {
 		return 0;
 	}
 
+	@Override
+	public void newEpisode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newTrial() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

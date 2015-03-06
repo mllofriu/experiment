@@ -6,6 +6,7 @@ import java.util.List;
 import javax.vecmath.Point3f;
 import javax.vecmath.Quat4f;
 
+import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -97,7 +98,7 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	}
 
 	@Override
-	public void executeAffordance(Affordance selectedAction) {
+	public void executeAffordance(Affordance selectedAction, Subject sub) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -11,8 +11,7 @@ public class FoundFoodStopCond implements Condition {
 
 	@Override
 	public boolean holds(Episode episode) {
-		Universe uni = episode.getUniverse();
-		return uni.hasRobotFoundFood();
+		return episode.getSubject().hasEaten();
 	}
 
 }

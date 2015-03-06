@@ -1,7 +1,13 @@
 package edu.usf.experiment.plot;
 
-public interface Plotter {
+import edu.usf.experiment.utils.ElementWrapper;
 
-	public void plot();
+public abstract class Plotter {
+	
+	public Plotter(ElementWrapper params){
+		
+	}
+
+	public abstract void plot();
 
 }

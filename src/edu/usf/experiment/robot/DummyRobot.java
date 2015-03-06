@@ -2,6 +2,7 @@ package edu.usf.experiment.robot;
 
 import java.util.List;
 
+import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -80,8 +81,9 @@ public class DummyRobot extends Robot {
 		return null;
 	}
 
+
 	@Override
-	public void executeAffordance(Affordance selectedAction) {
+	public void executeAffordance(Affordance selectedAction, Subject sub) {
 		// TODO Auto-generated method stub
 		
 	}
