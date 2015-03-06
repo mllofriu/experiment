@@ -3,6 +3,8 @@ package edu.usf.experiment;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.usf.experiment.log.Logger;
+import edu.usf.experiment.log.LoggerLoader;
 import edu.usf.experiment.plot.Plotter;
 import edu.usf.experiment.plot.PlotterLoader;
 import edu.usf.experiment.subject.Subject;
@@ -30,9 +32,9 @@ public class Trial implements Runnable {
 	private List<Episode> episodes;
 	private List<Task> afterTasks;
 	private Universe universe;
+	private List<Logger> loggers;
 
-	public Trial(ElementWrapper trialNode, Subject subject,
-			Universe universe) {
+	public Trial(ElementWrapper trialNode, Subject subject, Universe universe) {
 		super();
 		this.name = trialNode.getChildText("name");
 		this.subject = subject;
@@ -58,11 +60,11 @@ public class Trial implements Runnable {
 		synchronized (getSubject()) {
 			PropertyHolder props = PropertyHolder.getInstance();
 			props.setProperty("trial", name);
-			
+
 			// Do all before trial tasks
 			for (Task task : beforeTasks)
 				task.perform(this);
-			
+
 			getSubject().newTrial();
 
 			// Run each episode
@@ -73,7 +75,7 @@ public class Trial implements Runnable {
 			// After trial tasks
 			for (Task task : afterTasks)
 				task.perform(this);
-
+			
 			// Plotters
 			for (Plotter p : plotters)
 				p.plot();

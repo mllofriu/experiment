@@ -2,6 +2,8 @@ package edu.usf.experiment.subject;
 
 import java.util.List;
 
+import javax.vecmath.Point3f;
+
 import edu.usf.experiment.robot.Robot;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.utils.ElementWrapper;
@@ -79,5 +81,7 @@ public abstract class Subject {
 	public void setHasEaten(boolean b) {
 		hasEaten = b;
 	}
+	
+	public abstract Affordance getHypotheticAction(Point3f pos, float theta, int intention);
 
 }

@@ -36,6 +36,7 @@ public class Episode {
 	private List<Task> beforeCycleTasks;
 	private List<Task> afterCycleTasks;
 	private List<Logger> loggers;
+	private List<Logger> afterLoggers;
 
 	public Episode(ElementWrapper episodeNode, Trial trial, int episodeNumber) {
 		this.trial = trial;
@@ -54,7 +55,7 @@ public class Episode {
 		stopConds = ConditionLoader.getInstance().load(
 				episodeNode.getChild("stopConditions"));
 		loggers = LoggerLoader.getInstance().load(episodeNode.getChild("loggers"));
-				
+		afterLoggers = LoggerLoader.getInstance().load(episodeNode.getChild("afterLoggers"));
 	}
 
 	public void run() {
@@ -89,6 +90,11 @@ public class Episode {
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)
 				finished = finished || sc.holds(this);
+		}
+		
+		for (Logger l : afterLoggers){
+			l.log(this);
+			l.finalizeLog();
 		}
 		
 		// Finalize loggers
