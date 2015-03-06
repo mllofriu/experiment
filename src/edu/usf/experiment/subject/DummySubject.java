@@ -2,6 +2,8 @@ package edu.usf.experiment.subject;
 
 import java.util.List;
 
+import javax.vecmath.Point3f;
+
 import edu.usf.experiment.robot.Robot;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
@@ -60,5 +62,11 @@ public class DummySubject extends Subject {
 		
 	}
 
+	@Override
+	public Affordance getHypotheticAction(Point3f pos, float theta,
+			int intention) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -70,7 +70,9 @@ public abstract class Universe {
 	}
 
 	// Boundaries
-	public abstract Rectangle2D.Float getBoundingRectangle();
+	public Rectangle2D.Float getBoundingRectangle(){
+		return boundingRect;
+	}
 
 	// Robot position
 	public abstract Point3f getRobotPosition();
