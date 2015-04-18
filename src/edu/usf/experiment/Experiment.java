@@ -19,6 +19,7 @@ import edu.usf.experiment.universe.UniverseLoader;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
 import edu.usf.experiment.utils.XMLDocReader;
+import edu.usf.experiment.utils.XMLExperimentParser;
 
 /**
  * This holds a set of trials over a group of individuals. Group parameters, and
@@ -61,23 +62,17 @@ public class Experiment implements Runnable {
 		props.setProperty("group", groupName);
 		props.setProperty("subject", subjectName);
 
-		// Read experiments from xml file
-		String fullExpFileName = logPath + "experiment.xml";
-		IOUtils.copyFile(experimentFile, fullExpFileName);
-
-		// Read experiment file
-		Document doc = XMLDocReader.readDocument(fullExpFileName);
-		ElementWrapper root = new ElementWrapper(doc.getDocumentElement());
+		ElementWrapper root = XMLExperimentParser.loadRoot(logPath, experimentFile);
 
 		universe = UniverseLoader.getInstance().load(root);
 		
 		Robot robot = RobotLoader.getInstance().load(root);
 
 		// Load the subject using reflection and assign name and group
-		Subject subject = loadSubject(root, groupName, subjectName, robot);
+		Subject subject = XMLExperimentParser.loadSubject(root, groupName, subjectName, robot);
 
 		// Load trials that apply to the subject
-		trials = loadTrials(root, subject, universe);
+		trials = XMLExperimentParser.loadTrials(root, subject, universe);
 
 		// Load tasks and plotters
 		beforeTasks = TaskLoader.getInstance().load(
@@ -86,59 +81,6 @@ public class Experiment implements Runnable {
 		plotters = PlotterLoader.getInstance().load(root.getChild("plotters"));
 	}
 
-	/***
-	 * Loads the especified subject from the xml file
-	 * 
-	 * @param root
-	 * @param gName
-	 * @param subName
-	 * @param robot 
-	 * @return
-	 */
-	private Subject loadSubject(ElementWrapper root, String gName,
-			String subName, Robot robot) {
-		List<ElementWrapper> groupNodes = root.getChildren("group");
-		// Look for the group of the individual to execute
-		for (ElementWrapper gNode : groupNodes) {
-			if (gNode.getChildText("name").equals(gName)) {
-				// Found the group
-				return SubjectLoader.getInstance().load(subName, gName, gNode, robot);
-			}
-		}
-
-		throw new RuntimeException("Group " + gName
-				+ " not specified in experiment xml file");
-	}
-
-	/***
-	 * Load the trials for the especified subject form the xml file
-	 * 
-	 * @param root
-	 * @param subject
-	 * @param universe
-	 * @return
-	 */
-	private List<Trial> loadTrials(ElementWrapper root, Subject subject,
-			Universe universe) {
-		List<Trial> res = new LinkedList<Trial>();
-
-		List<ElementWrapper> trialNodes = root.getChildren("trial");
-		// For each trial
-		for (ElementWrapper trialNode : trialNodes) {
-			// For each group
-			List<ElementWrapper> trialGroups = trialNode.getChild("groups")
-					.getChildren("group");
-			for (ElementWrapper groupNode : trialGroups) {
-				String groupName = groupNode.getText();
-				// For each subject in the group
-				if (groupName.equals(subject.getGroup())) {
-					res.add(new Trial(trialNode, subject, universe));
-				}
-			}
-		}
-
-		return res;
-	}
 
 	/***
 	 * Runs the experiment for the especified subject. Just goes over trials and

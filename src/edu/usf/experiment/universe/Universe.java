@@ -5,15 +5,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.j3d.Transform3D;
 import javax.vecmath.Point3f;
 import javax.vecmath.Quat4f;
-import javax.vecmath.Vector3f;
 
 import org.w3c.dom.Document;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.LineSegment;
 
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.ElementWrapper;
@@ -21,6 +16,8 @@ import edu.usf.experiment.utils.IOUtils;
 import edu.usf.experiment.utils.XMLDocReader;
 
 public abstract class Universe {
+
+	private static final int WALLS_PER_POOL = 16;
 
 	// TODO: get as param
 	private static float CLOSE_TO_FOOD_THRS;
@@ -61,7 +58,26 @@ public abstract class Universe {
 					wall.getChildFloat("y2"));
 			walls.add(w);
 		}
-
+		
+		ElementWrapper pool = maze.getChild("pool");
+		if (pool != null){
+			float r = pool.getChildFloat("r");
+			float x = pool.getChildFloat("x");
+			float y = pool.getChildFloat("y");
+			float currentAngle = 0;
+			for (int i = 0; i < WALLS_PER_POOL; i++) {
+				float x1 = (float) (x + r * Math.sin(currentAngle));
+				float y1 = (float) (y + r * Math.cos(currentAngle));
+				float nextAngle = (float) ((currentAngle + (2 * Math.PI / WALLS_PER_POOL)));
+				float x2 = (float) (r * Math.sin(nextAngle));
+				float y2 = (float) (r * Math.cos(nextAngle));
+				
+				walls.add(new Wall(x1, y1, x2, y2));
+				
+				currentAngle = nextAngle;
+			}
+		}
+		
 		list = maze.getChildren("feeder");
 		for(ElementWrapper feeder : list){
 			Feeder f = new Feeder(new Point3f(feeder.getChildFloat("x"),feeder.getChildFloat("y"),feeder.getChildFloat("z")));

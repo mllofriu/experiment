@@ -8,6 +8,7 @@ import javax.vecmath.Quat4f;
 
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
+import edu.usf.experiment.universe.Feeder;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public class DummyLocalizableRobot extends LocalizableRobot {
@@ -101,6 +102,12 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	public void executeAffordance(Affordance selectedAction, Subject sub) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Feeder> getFeeders(int i) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
