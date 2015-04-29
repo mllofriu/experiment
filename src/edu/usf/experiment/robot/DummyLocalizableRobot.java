@@ -48,7 +48,7 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	}
 
 	@Override
-	public Landmark getFlashingFeeder() {
+	public Feeder getFlashingFeeder() {
 		return null;
 	}
 
@@ -80,7 +80,7 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	}
 
 	@Override
-	public Landmark getClosestFeeder(int lastFeeder) {
+	public Feeder getClosestFeeder(int lastFeeder) {
 		// TODO Auto-generated method stub
 		return null;
 	}

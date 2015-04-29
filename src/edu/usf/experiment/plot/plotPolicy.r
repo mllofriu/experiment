@@ -133,7 +133,7 @@ plotPolicyOnMaze <- function(name, policyData, wallData, maze){
   
   
   ggsave(plot=p,filename=paste("plots/policy/",name,
-                               ".png", sep=''), width=10, height=10)
+                               ".pdf", sep=''), width=10, height=10)
   #   saveRDS(p, paste("plots/policy/",name,".obj", sep=''))
 }
 

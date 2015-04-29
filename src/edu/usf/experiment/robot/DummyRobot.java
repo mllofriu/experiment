@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
+import edu.usf.experiment.universe.Feeder;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public class DummyRobot extends Robot {
@@ -44,7 +45,7 @@ public class DummyRobot extends Robot {
 	}
 
 	@Override
-	public Landmark getFlashingFeeder() {
+	public Feeder getFlashingFeeder() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -69,7 +70,7 @@ public class DummyRobot extends Robot {
 	}
 
 	@Override
-	public Landmark getClosestFeeder(int lastFeeder) {
+	public Feeder getClosestFeeder(int lastFeeder) {
 		// TODO Auto-generated method stub
 		return null;
 	}

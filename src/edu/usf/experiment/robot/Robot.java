@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
+import edu.usf.experiment.universe.Feeder;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -58,11 +59,15 @@ public abstract class Robot {
 	 */
 	public abstract List<Landmark> getLandmarks();
 
-	public abstract Landmark getFlashingFeeder();
+	public abstract Feeder getFlashingFeeder();
 
 	public abstract boolean seesFlashingFeeder();
 
-	public abstract Landmark getClosestFeeder(int lastFeeder);
+	public abstract Feeder getClosestFeeder(int lastFeeder);
+	
+	public Feeder getClosestFeeder(){
+		return getClosestFeeder(-1);
+	}
 
 	public abstract boolean isFeederClose();
 

@@ -1,5 +1,6 @@
 package edu.usf.experiment.subject;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.vecmath.Point3f;
@@ -67,6 +68,18 @@ public class DummySubject extends Subject {
 			int intention) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deactivateHPCLayers(LinkedList<Integer> indexList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setExplorationVal(float i) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -38,6 +38,7 @@ public class Experiment implements Runnable {
 	private List<Task> afterTasks;
 	private List<Plotter> plotters;
 	private Universe universe;
+	private Subject subject;
 
 	public Experiment(String experimentFile, String logPath, String groupName,
 			String subjectName) {
@@ -70,7 +71,7 @@ public class Experiment implements Runnable {
 		Robot robot = RobotLoader.getInstance().load(root);
 
 		// Load the subject using reflection and assign name and group
-		Subject subject = XMLExperimentParser.loadSubject(root, groupName, subjectName, robot);
+		subject = XMLExperimentParser.loadSubject(root, groupName, subjectName, robot);
 
 		// Load trials that apply to the subject
 		trials = XMLExperimentParser.loadTrials(root, subject, universe);
@@ -118,5 +119,10 @@ public class Experiment implements Runnable {
 
 	public Universe getUniverse() {
 		return universe;
+	}
+
+
+	public Subject getSubject() {
+		return subject;
 	}
 }

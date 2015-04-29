@@ -1,5 +1,6 @@
 package edu.usf.experiment.subject;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.vecmath.Point3f;
@@ -14,6 +15,7 @@ public abstract class Subject {
 	private String group;
 	private Robot robot;
 	private boolean hasEaten;
+	private boolean triedToEat;
 
 	public Subject(String name, String group, ElementWrapper modelParams, Robot robot) {
 		this.name = name;
@@ -21,6 +23,7 @@ public abstract class Subject {
 		this.robot = robot;
 		
 		hasEaten = false;
+		triedToEat = false;
 	}
 
 	/**
@@ -62,8 +65,18 @@ public abstract class Subject {
 	 * Returns true if the subject has tried to eat, regardless of whether it could eat or not
 	 * @return
 	 */
-	public abstract boolean hasTriedToEat();
+	public boolean hasTriedToEat(){
+		return triedToEat;
+	}
+	
+	public void setTriedToEat(){
+		triedToEat = true;
+	}
 
+	public void clearTriedToEAt(){
+		triedToEat = false;
+	}
+	
 	public Robot getRobot() {
 		return robot;
 	}
@@ -84,4 +97,7 @@ public abstract class Subject {
 	
 	public abstract Affordance getHypotheticAction(Point3f pos, float theta, int intention);
 
+	public abstract void deactivateHPCLayers(LinkedList<Integer> indexList);
+
+	public abstract void setExplorationVal(float i);
 }

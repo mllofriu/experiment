@@ -11,6 +11,7 @@ import javax.vecmath.Quat4f;
 import org.w3c.dom.Document;
 
 import edu.usf.experiment.PropertyHolder;
+import edu.usf.experiment.utils.Debug;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
 import edu.usf.experiment.utils.XMLDocReader;
@@ -25,6 +26,9 @@ public abstract class Universe {
 	private List<Feeder> feeders;
 	private List<Wall> walls;
 	private Rectangle2D.Float boundingRect;
+
+	private int lastAteFeeder;
+
 
 	public Universe(ElementWrapper params) {
 		CLOSE_TO_FOOD_THRS = params.getChildFloat("closeToFoodThrs");
@@ -79,10 +83,13 @@ public abstract class Universe {
 		}
 		
 		list = maze.getChildren("feeder");
+		int i = 0;
 		for(ElementWrapper feeder : list){
-			Feeder f = new Feeder(new Point3f(feeder.getChildFloat("x"),feeder.getChildFloat("y"),feeder.getChildFloat("z")));
+			Feeder f = new Feeder(i, new Point3f(feeder.getChildFloat("x"),feeder.getChildFloat("y"),feeder.getChildFloat("z")));
 			feeders.add(f);
+			i++;
 		}
+		
 	}
 
 	// Boundaries
@@ -139,6 +146,10 @@ public abstract class Universe {
 
 		return res;
 	}
+	
+	public Feeder getFeeder(int i){
+		return feeders.get(i);
+	}
 
 	public boolean isFeederActive(int feeder) {
 		return feeders.get(feeder).isActive();
@@ -178,9 +189,20 @@ public abstract class Universe {
 					feedingFeeder = i;
 		}
 
-		if (feedingFeeder != -1)
+		if (feedingFeeder != -1){
 			feeders.get(feedingFeeder).clearFood();
+			lastAteFeeder = feedingFeeder;
+			if (Debug.printRobotEaten)
+				System.out.println("Robot has eaten");
+		} else {
+			System.out.println("Robot tried to eat far from food");
+		}
 	}
+	
+	public int getLastFeedingFeeder(){
+		return lastAteFeeder;
+	}
+	
 
 	public boolean isRobotCloseToFeeder(int currentGoal) {
 		Point3f robot = getRobotPosition();
