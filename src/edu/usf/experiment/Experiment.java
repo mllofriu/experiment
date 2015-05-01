@@ -63,7 +63,7 @@ public class Experiment implements Runnable {
 		props.setProperty("group", groupName);
 		props.setProperty("subject", subjectName);
 
-    IOUtils.copyFile(experimentFile, logPath + "/experiment.xml"); 
+		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml"); 
 		ElementWrapper root = XMLExperimentParser.loadRoot(logPath, experimentFile);
 
 		universe = UniverseLoader.getInstance().load(root);

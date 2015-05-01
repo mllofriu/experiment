@@ -34,7 +34,7 @@ public class UnFlashAllFeeders extends Task {
 	}
 	
 	private void perform(Universe u){
-		for (Integer f : u.getFeeders())
+		for (Integer f : u.getFeederNums())
 			u.setFlashingFeeder(f, false);
 	}
 

@@ -139,12 +139,16 @@ public abstract class Universe {
 		feeders.get(i).setFlashing(flashing);
 	}
 
-	public List<Integer> getFeeders() {
+	public List<Integer> getFeederNums() {
 		List<Integer> res = new LinkedList<Integer>();
 		for (int i = 0; i < feeders.size(); i++)
 			res.add(i);
 
 		return res;
+	}
+	
+	public List<Feeder> getFeeders(){
+		return feeders;
 	}
 	
 	public Feeder getFeeder(int i){

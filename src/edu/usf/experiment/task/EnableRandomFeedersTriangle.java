@@ -43,7 +43,7 @@ public class EnableRandomFeedersTriangle extends Task {
 	
 	private void perform(Universe u){
 		List<Integer> toEnable = new LinkedList<Integer>();
-		List<Integer> feeders = new LinkedList<Integer>(u.getFeeders());
+		List<Integer> feeders = new LinkedList<Integer>(u.getFeederNums());
 		int numFeeders = feeders.size();
 		
 		//int first = r.nextInt(numFeeders);

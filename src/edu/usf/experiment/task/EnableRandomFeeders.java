@@ -44,7 +44,7 @@ public class EnableRandomFeeders extends Task {
 	
 	private void perform(Universe u){
 		List<Integer> toEnable = new LinkedList<Integer>();
-		List<Integer> feeders = new LinkedList<Integer>(u.getFeeders());
+		List<Integer> feeders = new LinkedList<Integer>(u.getFeederNums());
 		for (int i = 0; i < numFeeders; i++){
 			int index = r.nextInt(feeders.size());
 			toEnable.add(feeders.get(index));

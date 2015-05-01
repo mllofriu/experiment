@@ -41,7 +41,7 @@ public class EnableAllFeeders extends Task {
 	}
 	
 	private void perform(Universe u){
-		for (Integer f : u.getFeeders())
+		for (Integer f : u.getFeederNums())
 			u.setEnableFeeder(f, true);
 	}
 

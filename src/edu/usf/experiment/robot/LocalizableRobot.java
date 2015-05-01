@@ -34,5 +34,16 @@ public abstract class LocalizableRobot extends Robot {
 
 	public abstract boolean seesFeeder();
 
-	public abstract List<Feeder> getFeeders(int i);
+	/**
+	 * Returns the feeders visible to the robot
+	 * @param i Feeder to ignore
+	 * @return
+	 */
+	public abstract List<Feeder> getVisibleFeeders(int i);
+	
+	/**
+	 * Return a list with all universe feeders for place cell layout purposes
+	 * @return
+	 */
+	public abstract List<Feeder> getAllFeeders();
 }

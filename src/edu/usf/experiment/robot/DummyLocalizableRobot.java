@@ -105,7 +105,13 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	}
 
 	@Override
-	public List<Feeder> getFeeders(int i) {
+	public List<Feeder> getVisibleFeeders(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Feeder> getAllFeeders() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -85,7 +85,9 @@ public abstract class Subject {
 
 	public abstract List<Affordance> getPossibleAffordances();
 
-	public abstract float getMinAngle() ;
+	public abstract float getMinAngle();
+	
+	public abstract float getStepLenght();
 	
 	public abstract void newEpisode();
 	
