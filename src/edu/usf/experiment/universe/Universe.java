@@ -1,14 +1,18 @@
 package edu.usf.experiment.universe;
 
-import java.awt.geom.Point2D.Float;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.vecmath.Point2f;
 import javax.vecmath.Point3f;
 import javax.vecmath.Quat4f;
 
 import org.w3c.dom.Document;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.LineSegment;
 
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.Debug;
@@ -271,10 +275,61 @@ public abstract class Universe {
 		this.boundingRect = boundingRect;
 	}
 
-	public abstract void setRobotPosition(Float float1, float w);
+	public abstract void setRobotPosition(Point2D.Float float1, float w);
 
 	public List<Wall> getWalls() {
 		return walls;
+	}
+
+	public float shortestDistanceToWalls(LineSegment wall) {
+		float shortestDistance = Float.MAX_VALUE;
+		for (Wall w : walls)
+			if (w.distanceTo(wall) < shortestDistance)
+				shortestDistance = w.distanceTo(wall);
+
+
+		return shortestDistance;
+	}
+
+	public float wallDistanceToFeeders(LineSegment wall) {
+		float minDist = Float.MAX_VALUE;
+		for (Feeder fn : feeders) {
+			Point3f pos = fn.getPosition();
+			Coordinate c = new Coordinate(pos.x, pos.y);
+			if (wall.distance(c) < minDist)
+				minDist = (float) wall.distance(c);
+		}
+		return minDist;
+	}
+
+	public void addWall(float x, float y, float x2, float y2) {
+		walls.add(new Wall(x, y, x2, y2));
+	}
+
+	public float shortestDistanceToWalls(Point2f x1) {
+		float shortestDistance = Float.MAX_VALUE;
+		for (Wall w : walls)
+			if (w.distanceTo(x1) < shortestDistance)
+				shortestDistance = w.distanceTo(x1);
+
+
+		return shortestDistance;
+	}
+
+	public float shortestDistanceToFeeders(Point2f x) {
+		float minDist = Float.MAX_VALUE;
+		Coordinate p = new Coordinate(x.x, x.y);
+		for (Feeder fn : feeders) {
+			Point3f pos = fn.getPosition();
+			Coordinate c = new Coordinate(pos.x, pos.y);
+			if (p.distance(c) < minDist)
+				minDist = (float) p.distance(c);
+		}
+		return minDist;
+	}
+
+	public void addWall(LineSegment segment) {
+		walls.add(new Wall(segment));
 	}
 
 }
