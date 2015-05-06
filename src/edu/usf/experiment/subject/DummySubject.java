@@ -81,5 +81,11 @@ public class DummySubject extends Subject {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public float getStepLenght() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
