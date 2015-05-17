@@ -90,4 +90,12 @@ public abstract class Robot {
 	public abstract List<Feeder> getVisibleFeeders(int ignore);
 	
 	public abstract List<Point3f> getVisibleWallEnds();
+
+	public List<Point3f> getInterestingPoints() {
+		List<Point3f> points = getVisibleWallEnds();
+		List<Feeder> feeders = getVisibleFeeders(-1);
+		for (Feeder f : feeders)
+			points.add(f.getPosition());
+		return points;
+	}
 }
