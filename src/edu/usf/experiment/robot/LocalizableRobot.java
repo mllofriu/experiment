@@ -33,17 +33,12 @@ public abstract class LocalizableRobot extends Robot {
 	public abstract Quat4f getOrientation();
 
 	public abstract boolean seesFeeder();
-
-	/**
-	 * Returns the feeders visible to the robot
-	 * @param i Feeder to ignore
-	 * @return
-	 */
-	public abstract List<Feeder> getVisibleFeeders(int ignore);
 	
 	/**
 	 * Return a list with all universe feeders for place cell layout purposes
 	 * @return
 	 */
 	public abstract List<Feeder> getAllFeeders();
+
+	public abstract float getDistanceToClosestWall();
 }

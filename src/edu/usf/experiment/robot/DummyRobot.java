@@ -2,6 +2,8 @@ package edu.usf.experiment.robot;
 
 import java.util.List;
 
+import javax.vecmath.Point3f;
+
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.universe.Feeder;
@@ -87,6 +89,18 @@ public class DummyRobot extends Robot {
 	public void executeAffordance(Affordance selectedAction, Subject sub) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Feeder> getVisibleFeeders(int ignore) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Point3f> getVisibleWallEnds() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

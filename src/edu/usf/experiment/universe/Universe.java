@@ -33,6 +33,8 @@ public abstract class Universe {
 
 	private int lastAteFeeder;
 
+	private List<Wall> innerWalls;
+
 
 	public Universe(ElementWrapper params) {
 		CLOSE_TO_FOOD_THRS = params.getChildFloat("closeToFoodThrs");
@@ -331,5 +333,26 @@ public abstract class Universe {
 	public void addWall(LineSegment segment) {
 		walls.add(new Wall(segment));
 	}
+	
+	public boolean wallIntersectsOtherWalls(LineSegment wall) {
+		boolean intersects = false;
+		for (Wall w : walls)
+			intersects = intersects || w.intersects(wall);
+
+		return intersects;
+	}
+	
+	public float getDistanceToClosestWall() {
+		Point3f p = getRobotPosition();
+		Point2f p2 = new Point2f(p.x,p.y);
+		
+		float shortestDistance = Float.MAX_VALUE;
+		for (Wall w : getWalls())
+			if (w.distanceTo(p2) < shortestDistance)
+				shortestDistance = w.distanceTo(p2);
+
+		return shortestDistance;
+	}
+
 
 }

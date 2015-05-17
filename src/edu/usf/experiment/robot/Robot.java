@@ -2,6 +2,8 @@ package edu.usf.experiment.robot;
 
 import java.util.List;
 
+import javax.vecmath.Point3f;
+
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.universe.Feeder;
@@ -79,4 +81,13 @@ public abstract class Robot {
 	public abstract List<Affordance> checkAffordances(List<Affordance> possibleAffordances);
 
 	public abstract void executeAffordance(Affordance selectedAction, Subject sub);
+	
+	/**
+	 * Returns the feeders visible to the robot
+	 * @param i Feeder to ignore
+	 * @return
+	 */
+	public abstract List<Feeder> getVisibleFeeders(int ignore);
+	
+	public abstract List<Point3f> getVisibleWallEnds();
 }

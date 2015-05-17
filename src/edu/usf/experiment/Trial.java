@@ -46,6 +46,8 @@ public class Trial implements Runnable {
 				trialNode.getChild("afterTasks"));
 		plotters = PlotterLoader.getInstance().load(
 				trialNode.getChild("plotters"));
+		
+		subject.newTrial();
 
 		episodes = new LinkedList<Episode>();
 		int numEpisodes = trialNode.getChild("episodes").getChildInt("number");

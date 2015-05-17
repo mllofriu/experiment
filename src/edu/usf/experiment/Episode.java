@@ -12,6 +12,7 @@ import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
 import edu.usf.experiment.universe.Universe;
+import edu.usf.experiment.utils.Debug;
 import edu.usf.experiment.utils.ElementWrapper;
 
 /**
@@ -37,10 +38,12 @@ public class Episode {
 	private List<Task> afterCycleTasks;
 	private List<Logger> loggers;
 	private List<Logger> afterLoggers;
+	private int sleep;
 
 	public Episode(ElementWrapper episodeNode, Trial trial, int episodeNumber) {
 		this.trial = trial;
 		this.episodeNumber = episodeNumber;
+		this.sleep = episodeNode.getChildInt("sleep");
 
 		beforeTasks = TaskLoader.getInstance().load(
 				episodeNode.getChild("beforeTasks"));
@@ -74,6 +77,7 @@ public class Episode {
 
 		// Execute cycles until stop condition holds
 		boolean finished = false;
+		int numCycles = 0;
 		while (!finished) {
 			for (Task t : beforeCycleTasks)
 				t.perform(this);
@@ -90,7 +94,26 @@ public class Episode {
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)
 				finished = finished || sc.holds(this);
+			
+			if (Debug.printEndCycle)
+				System.out.println("End cycle");
+			
+			numCycles++;
+			if (numCycles % 1000 == 0)
+				System.out.print(".");
+			
+			if (!finished && sleep != 0)
+				try {
+					Thread.sleep(sleep);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
 		}
+		
+		System.out.println();
 		
 		for (Logger l : afterLoggers){
 			l.log(this);

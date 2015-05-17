@@ -102,4 +102,6 @@ public abstract class Subject {
 	public abstract void deactivateHPCLayers(LinkedList<Integer> indexList);
 
 	public abstract void setExplorationVal(float i);
+
+	public abstract void restoreExploration();
 }

@@ -116,4 +116,16 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 		return null;
 	}
 
+	@Override
+	public float getDistanceToClosestWall() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Point3f> getVisibleWallEnds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

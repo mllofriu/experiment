@@ -87,5 +87,11 @@ public class DummySubject extends Subject {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void restoreExploration() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
