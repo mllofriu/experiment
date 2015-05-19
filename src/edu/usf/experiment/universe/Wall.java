@@ -58,4 +58,8 @@ public class Wall {
 		return s.intersection(wall) != null;
 	}
 
+	public float distanceTo(Point3f p) {
+		return distanceTo(new Point2f(p.x, p.y));
+	}
+
 }
