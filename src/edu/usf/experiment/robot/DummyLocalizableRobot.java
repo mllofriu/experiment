@@ -1,4 +1,4 @@
-package edu.usf.experiment.robot;
+ package edu.usf.experiment.robot;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 	}
 
 	@Override
-	public List<Feeder> getVisibleFeeders(int i) {
+	public List<Feeder> getVisibleFeeders(int[] i) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -92,7 +92,7 @@ public class DummyRobot extends Robot {
 	}
 
 	@Override
-	public List<Feeder> getVisibleFeeders(int ignore) {
+	public List<Feeder> getVisibleFeeders(int[] ignore) {
 		// TODO Auto-generated method stub
 		return null;
 	}

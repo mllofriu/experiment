@@ -87,13 +87,14 @@ public abstract class Robot {
 	 * @param i Feeder to ignore
 	 * @return
 	 */
-	public abstract List<Feeder> getVisibleFeeders(int ignore);
+	public abstract List<Feeder> getVisibleFeeders(int[] is);
 	
 	public abstract List<Point3f> getVisibleWallEnds();
 
 	public List<Point3f> getInterestingPoints() {
 		List<Point3f> points = getVisibleWallEnds();
-		List<Feeder> feeders = getVisibleFeeders(-1);
+		int[] exclude = {-1, -1};
+		List<Feeder> feeders = getVisibleFeeders(exclude);
 		for (Feeder f : feeders)
 			points.add(f.getPosition());
 		return points;
