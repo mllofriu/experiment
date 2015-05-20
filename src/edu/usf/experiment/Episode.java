@@ -101,6 +101,8 @@ public class Episode {
 			numCycles++;
 			if (numCycles % 1000 == 0)
 				System.out.print(".");
+			if (numCycles % 5000 == 0)
+				System.out.println("");
 			
 			if (!finished && sleep != 0)
 				try {

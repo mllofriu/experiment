@@ -23,7 +23,6 @@ public class AddSmallWallsTask extends Task {
 	private static final float NEAR_WALL_RADIUS = .49f;
 	private static final float LENGTH = .2f;
 	private static final int NUM_WALLS = 10;
-	private static final float RADIUS_THIRD_POINT = .40f;
 	private static final float DISTANCE_INTERIOR_WALLS = .1f;
 	private static final float MIN_DIST_TO_FEEDERS_INTERIOR = 0.1f;
 	private static final double NUM_INTERIOR_WALLS = 4;
@@ -52,7 +51,7 @@ public class AddSmallWallsTask extends Task {
 		Random random = new Random();
 
 		List<Point2f> nearWall;
-		LineSegment wall, wall2;
+		LineSegment wall;
 		boolean noClosePoints;
 		do {
 			// Pick an orientation to seed the three walls near the outside
@@ -81,54 +80,22 @@ public class AddSmallWallsTask extends Task {
 					orientation = (float) (random.nextFloat() * 2 * Math.PI);
 
 					translation = new Point2f();
-					translation.x = (float) (LENGTH / 2 * Math.cos(orientation));
-					translation.y = (float) (LENGTH / 2 * Math.sin(orientation));
+					translation.x = (float) (LENGTH * Math.cos(orientation));
+					translation.y = (float) (LENGTH * Math.sin(orientation));
 
 					x2 = new Point2f(seed);
 					x2.add(translation);
 				} while (x2.distance(new Point2f()) > RADIUS);
 
-				do {
-					float breakAngle;
-					if (random.nextFloat() > .5)
-						breakAngle = (float) (Math.PI / 3);
-					else
-						breakAngle = (float) (Math.PI / 4);
-					if (random.nextFloat() > .5)
-						breakAngle = -breakAngle;
-
-					x3 = new Point2f(x2);
-					translation.x = (float) (LENGTH / 2 * Math.cos(orientation
-							+ breakAngle));
-					translation.y = (float) (LENGTH / 2 * Math.sin(orientation
-							+ breakAngle));
-					x3.add(translation);
-
-				} while (x3.distance(new Point2f()) > RADIUS_THIRD_POINT); // The
-																			// last
-																			// point
-																			// should
-																			// not
-																			// be
-																			// too
-																			// close
-																			// to
-																			// the
-																			// walls
+				
 
 				wall = new LineSegment(new Coordinate(seed.x, seed.y),
 						new Coordinate(x2.x, x2.y));
-				wall2 = new LineSegment(new Coordinate(x2.x, x2.y),
-						new Coordinate(x3.x, x3.y));
 
 			} while (univ.shortestDistanceToWalls(wall) == 0
-					|| univ.shortestDistanceToWalls(wall2) < DISTANCE_INTERIOR_WALLS
-					|| univ.wallDistanceToFeeders(wall) < MIN_DIST_TO_FEEDERS
-					|| univ.wallDistanceToFeeders(wall2) < MIN_DIST_TO_FEEDERS);
+					|| univ.wallDistanceToFeeders(wall) < MIN_DIST_TO_FEEDERS);
 
 			univ.addWall(wall);
-
-			univ.addWall(wall2);
 
 		}
 
@@ -148,44 +115,21 @@ public class AddSmallWallsTask extends Task {
 				orientation = (float) (random.nextFloat() * 2 * Math.PI);
 
 				Point2f translation = new Point2f();
-				translation.x = (float) (LENGTH / 2 * Math.cos(orientation));
-				translation.y = (float) (LENGTH / 2 * Math.sin(orientation));
+				translation.x = (float) (LENGTH * Math.cos(orientation));
+				translation.y = (float) (LENGTH * Math.sin(orientation));
 				secondPoint = new Point2f(firstPoint);
 				secondPoint.add(translation);
 				wall1 = new LineSegment(new Coordinate(firstPoint.x,
 						firstPoint.y), new Coordinate(secondPoint.x,
 						secondPoint.y));
 
-				float breakAngle;
-				if (random.nextFloat() > .5)
-					breakAngle = (float) (Math.PI / 3);
-				else
-					breakAngle = (float) (Math.PI / 4);
-				if (random.nextFloat() > .5)
-					breakAngle = -breakAngle;
-
-				thirdPoint = new Point2f(secondPoint);
-				translation = new Point2f();
-				translation.x = (float) (LENGTH / 2 * Math.cos(orientation
-						+ breakAngle));
-				translation.y = (float) (LENGTH / 2 * Math.sin(orientation
-						+ breakAngle));
-				thirdPoint.add(translation);
-
-				wall2 = new LineSegment(new Coordinate(secondPoint.x,
-						secondPoint.y), new Coordinate(thirdPoint.x,
-						thirdPoint.y));
-
+				
 			} while (firstPoint.distance(new Point2f()) > RADIUS
 					|| secondPoint.distance(new Point2f()) > RADIUS
-					|| thirdPoint.distance(new Point2f()) > RADIUS
 					|| univ.shortestDistanceToWalls(wall1) < DISTANCE_INTERIOR_WALLS
-					|| univ.shortestDistanceToFeeders(secondPoint) < MIN_DIST_TO_FEEDERS_INTERIOR
-					|| univ.shortestDistanceToWalls(wall2) < DISTANCE_INTERIOR_WALLS
-					|| univ.shortestDistanceToFeeders(thirdPoint) <  MIN_DIST_TO_FEEDERS_INTERIOR);
+					|| univ.shortestDistanceToFeeders(secondPoint) < MIN_DIST_TO_FEEDERS_INTERIOR);
 
 			univ.addWall(wall1);
-			univ.addWall(wall2);
 
 		}
 		
