@@ -16,19 +16,19 @@ import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
-public class AddLargeWallsTask extends Task {
+public class AddSmallWallsTask extends Task {
 
 	private final float RADIUS = .4f;
 	private static final float MIN_DIST_TO_FEEDERS = 0.05f;
 	private static final float NEAR_WALL_RADIUS = .49f;
-	private static final float LENGTH = .4f;
-	private static final int NUM_WALLS = 5;
-	private static final float RADIUS_THIRD_POINT = .30f;
+	private static final float LENGTH = .2f;
+	private static final int NUM_WALLS = 10;
+	private static final float RADIUS_THIRD_POINT = .40f;
 	private static final float DISTANCE_INTERIOR_WALLS = .1f;
 	private static final float MIN_DIST_TO_FEEDERS_INTERIOR = 0.1f;
 	private static final double NUM_INTERIOR_WALLS = 4;
 
-	public AddLargeWallsTask(ElementWrapper params) {
+	public AddSmallWallsTask(ElementWrapper params) {
 		super(params);
 
 	}
