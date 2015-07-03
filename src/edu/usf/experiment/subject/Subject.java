@@ -104,4 +104,12 @@ public abstract class Subject {
 	public abstract void setExplorationVal(float i);
 
 	public abstract void restoreExploration();
+
+	/**
+	 * Returns the value of the position, orientation and intention
+	 * @param point3f
+	 * @param angle
+	 * @return
+	 */
+	public abstract float getValue(Point3f point3f, int intention, float angleInterval);
 }
