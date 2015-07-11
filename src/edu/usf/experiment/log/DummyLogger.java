@@ -2,6 +2,7 @@ package edu.usf.experiment.log;
 
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -31,6 +32,12 @@ public class DummyLogger extends Logger {
 	public String getFileName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void log(Trial trial) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

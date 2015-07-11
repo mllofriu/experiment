@@ -342,8 +342,7 @@ public abstract class Universe {
 		return intersects;
 	}
 	
-	public float getDistanceToClosestWall() {
-		Point3f p = getRobotPosition();
+	public float getDistanceToClosestWall(Point3f p) {
 		Point2f p2 = new Point2f(p.x,p.y);
 		
 		float shortestDistance = Float.MAX_VALUE;
@@ -354,5 +353,8 @@ public abstract class Universe {
 		return shortestDistance;
 	}
 
+	public float getDistanceToClosestWall(){
+		return getDistanceToClosestWall(getRobotPosition());
+	}
 
 }

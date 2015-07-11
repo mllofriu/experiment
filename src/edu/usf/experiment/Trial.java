@@ -33,6 +33,7 @@ public class Trial implements Runnable {
 	private List<Task> afterTasks;
 	private Universe universe;
 	private List<Logger> loggers;
+	private List<Logger> beforeLoggers;
 
 	public Trial(ElementWrapper trialNode, Subject subject, Universe universe) {
 		super();
@@ -46,7 +47,10 @@ public class Trial implements Runnable {
 				trialNode.getChild("afterTasks"));
 		plotters = PlotterLoader.getInstance().load(
 				trialNode.getChild("plotters"));
-		
+		if (trialNode.getChild("beforeLoggers") != null)
+			beforeLoggers = LoggerLoader.getInstance().load(
+					trialNode.getChild("beforeLoggers"));
+
 		subject.newTrial();
 
 		episodes = new LinkedList<Episode>();
@@ -67,6 +71,10 @@ public class Trial implements Runnable {
 			for (Task task : beforeTasks)
 				task.perform(this);
 
+			if (beforeLoggers != null)
+				for (Logger l : beforeLoggers)
+					l.log(this);
+
 			getSubject().newTrial();
 
 			// Run each episode
@@ -77,7 +85,7 @@ public class Trial implements Runnable {
 			// After trial tasks
 			for (Task task : afterTasks)
 				task.perform(this);
-			
+
 			// Plotters
 			for (Plotter p : plotters)
 				p.plot();

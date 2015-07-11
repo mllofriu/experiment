@@ -14,7 +14,7 @@ public class ValuePlotter extends Plotter {
 	public void plot() {
 		PropertyHolder props = PropertyHolder.getInstance();
 		String logPath = props.getProperty("log.directory");
-		IOUtils.copyResource(getClass().getResource("/edu/usf/experiment/plot/plotValue.r"), logPath + "plotPath.r");
+		IOUtils.copyResource(getClass().getResource("/edu/usf/experiment/plot/plotValue.r"), logPath + "plotValue.r");
 		IOUtils.exec("Rscript plotValue.r", logPath);
 	}
 

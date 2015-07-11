@@ -6,6 +6,7 @@ import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
+import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.universe.Universe;
@@ -26,10 +27,7 @@ public class PolicyLogger extends Logger {
 		interval = params.getChildFloat("interval");
 	}
 
-	@Override
-	public void log(Episode episode) {
-		Universe univ = episode.getUniverse();
-		Subject sub = episode.getSubject();
+	public void log(Universe univ, Subject sub) {
 		PrintWriter writer = getWriter();
 		
 		PropertyHolder props = PropertyHolder.getInstance();
@@ -84,6 +82,16 @@ public class PolicyLogger extends Logger {
 	@Override
 	public String getFileName() {
 		return "policy.csv";
+	}
+
+	@Override
+	public void log(Trial trial) {
+		log(trial.getUniverse(), trial.getSubject());
+	}
+	
+	@Override
+	public void log(Episode episode) {
+		log(episode.getUniverse(), episode.getSubject());
 	}
 
 }

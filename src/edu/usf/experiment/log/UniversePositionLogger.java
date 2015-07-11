@@ -3,6 +3,8 @@ package edu.usf.experiment.log;
 import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Trial;
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public class UniversePositionLogger extends PositionLogger {
@@ -12,10 +14,19 @@ public class UniversePositionLogger extends PositionLogger {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void log(Universe univ) {
+		Point3f pos = univ.getRobotPosition();
+		addPose(new Pose(pos.x, pos.y, false));
+	}
+	
+	@Override
+	public void log(Trial trial) {
+		log(trial.getUniverse());
+	}
+	
 	@Override
 	public void log(Episode episode) {
-		Point3f pos = episode.getUniverse().getRobotPosition();
-		addPose(new Pose(pos.x, pos.y, false));
+		log(episode.getUniverse());
 	}
 
 	@Override

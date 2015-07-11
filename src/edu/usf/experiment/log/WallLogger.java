@@ -6,6 +6,8 @@ import java.util.List;
 
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
+import edu.usf.experiment.Trial;
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.universe.Wall;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -19,11 +21,22 @@ public class WallLogger extends Logger {
 		walls = new LinkedList<Wall>();
 	}
 
-	@Override
-	public void log(Episode episode) {
-		for (Wall w : episode.getUniverse().getWalls())
+	public void log(Universe univ) {
+		for (Wall w : univ.getWalls())
 			walls.add(w);
 	}
+	
+	@Override
+	public void log(Episode episode) {
+		log(episode.getUniverse());
+	}
+
+	@Override
+	public void log(Trial trial) {
+		log(trial.getUniverse());
+	}
+	
+	
 
 	public String getFileName() {
 		return "walls.csv";
@@ -52,5 +65,7 @@ public class WallLogger extends Logger {
 	public String getHeader() {
 		return "trial\tgroup\tsubject\trepetition\tx\ty\txend\tyend";
 	}
+
+	
 
 }

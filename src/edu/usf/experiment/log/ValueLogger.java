@@ -6,6 +6,7 @@ import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
+import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.affordance.Affordance;
 import edu.usf.experiment.universe.Universe;
@@ -13,7 +14,6 @@ import edu.usf.experiment.utils.ElementWrapper;
 
 public class ValueLogger extends Logger {
 
-	private static final float MARGIN = 0.0f;
 	private int numIntentions;
 	private float angleInterval;
 	private float interval;
@@ -28,10 +28,7 @@ public class ValueLogger extends Logger {
 		circle = params.getChildBoolean("circle");
 	}
 
-	@Override
-	public void log(Episode episode) {
-		Universe univ = episode.getUniverse();
-		Subject sub = episode.getSubject();
+	public void log(Universe univ, Subject sub) {
 		PrintWriter writer = getWriter();
 
 		PropertyHolder props = PropertyHolder.getInstance();
@@ -43,19 +40,22 @@ public class ValueLogger extends Logger {
 		System.out.println("Starting to log value");
 
 		for (int intention = 0; intention < numIntentions; intention++) {
-			for (float xInc = MARGIN; xInc
-					- (univ.getBoundingRectangle().getWidth() - MARGIN / 2) < 1e-8; xInc += interval) {
-				for (float yInc = MARGIN; yInc
-						- (univ.getBoundingRectangle().getHeight() - MARGIN / 2) < 1e-8; yInc += interval) {
+			for (float xInc = 0; xInc
+					 < univ.getBoundingRectangle().getWidth() + interval; xInc += interval) {
+				for (float yInc = 0; yInc
+						< univ.getBoundingRectangle().getHeight() + interval; yInc += interval) {
 
 					float x = (float) (univ.getBoundingRectangle().getMinX() + xInc);
 					float y = (float) (univ.getBoundingRectangle().getMinY() + yInc);
 
+					Point3f p = new Point3f(x, y, 0);
+					float distToWall = univ.getDistanceToClosestWall(p);
 					if (!circle
 							|| inCircle(x, y, univ.getBoundingRectangle()
 									.getWidth())) {
-						float maxVal = sub.getValue(new Point3f(x, y, 0),
-								intention, angleInterval);
+						
+						float maxVal = sub.getValue(p,
+								intention, angleInterval, distToWall);
 
 						writer.println(trialName + '\t' + groupName + '\t'
 								+ subName + '\t' + episodeName + '\t' + x
@@ -67,6 +67,16 @@ public class ValueLogger extends Logger {
 		}
 
 		System.out.println("Finished loggin value");
+	}
+	
+	@Override
+	public void log(Trial trial) {
+		log(trial.getUniverse(), trial.getSubject());
+	}
+	
+	@Override
+	public void log(Episode episode) {
+		log(episode.getUniverse(), episode.getSubject());
 	}
 
 	private boolean inCircle(float x, float y, double width) {

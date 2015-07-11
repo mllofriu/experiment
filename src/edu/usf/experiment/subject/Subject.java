@@ -111,5 +111,5 @@ public abstract class Subject {
 	 * @param angle
 	 * @return
 	 */
-	public abstract float getValue(Point3f point3f, int intention, float angleInterval);
+	public abstract float getValue(Point3f point3f, int intention, float angleInterval, float distToWall);
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
+import edu.usf.experiment.Trial;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public abstract class Logger {
@@ -22,6 +23,8 @@ public abstract class Logger {
 	}
 
 	public abstract void log(Episode episode);
+	
+	public abstract void log(Trial trial);
 
 	public abstract void finalizeLog();
 	
@@ -52,5 +55,7 @@ public abstract class Logger {
 	public abstract String getHeader();
 
 	public abstract String getFileName();
+
+	
 
 }
