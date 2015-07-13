@@ -97,7 +97,7 @@ plotValueOnMaze <- function (preName, name, valData, wallData, maze){
   dim(valDataInterp$z) <- c(length(xo)*length(yo), 1)
   valDataInterpDf$val <- valDataInterp$z
   p <- p + geom_raster(data = valDataInterpDf, aes(x=x, y=y, fill=val)) #+ scale_fill_gradient(low="white", high="red")
-
+  p <- p + scale_fill_gradient(low = "white", high = "steelblue")
   p <- p + maze
   
   p <- wallPlot(wallData, p)
