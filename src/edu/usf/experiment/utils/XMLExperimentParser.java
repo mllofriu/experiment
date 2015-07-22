@@ -14,30 +14,6 @@ import edu.usf.experiment.universe.Universe;
 public class XMLExperimentParser {
 
 	/***
-	 * Loads the especified subject from the xml file
-	 * 
-	 * @param root
-	 * @param gName
-	 * @param subName
-	 * @param robot 
-	 * @return
-	 */
-	public static Subject loadSubject(ElementWrapper root, String gName,
-			String subName, Robot robot) {
-		List<ElementWrapper> groupNodes = root.getChildren("group");
-		// Look for the group of the individual to execute
-		for (ElementWrapper gNode : groupNodes) {
-			if (gNode.getChildText("name").equals(gName)) {
-				// Found the group
-				return SubjectLoader.getInstance().load(subName, gName, gNode, robot);
-			}
-		}
-
-		throw new RuntimeException("Group " + gName
-				+ " not specified in experiment xml file");
-	}
-
-	/***
 	 * Load the trials for the especified subject form the xml file
 	 * 
 	 * @param root
@@ -45,7 +21,7 @@ public class XMLExperimentParser {
 	 * @param universe
 	 * @return
 	 */
-	public static List<Trial> loadTrials(ElementWrapper root, Subject subject,
+	public static List<Trial> loadTrials(ElementWrapper root, String logPath, Subject subject,
 			Universe universe) {
 		List<Trial> res = new LinkedList<Trial>();
 
@@ -59,7 +35,7 @@ public class XMLExperimentParser {
 				String groupName = groupNode.getText();
 				// For each subject in the group
 				if (groupName.equals(subject.getGroup())) {
-					res.add(new Trial(trialNode, subject, universe));
+					res.add(new Trial(trialNode, logPath, subject, universe));
 				}
 			}
 		}

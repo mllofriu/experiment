@@ -10,44 +10,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Experiment;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public abstract class Logger {
 	
-	private static Map<String, PrintWriter> writers = new HashMap<String, PrintWriter>();
+	private String logPath;
 
-	public Logger(ElementWrapper params){
-		
+	public Logger(ElementWrapper params, String logPath){
+		this.setLogPath(logPath);
 	}
 
 	public abstract void log(Episode episode);
 	
 	public abstract void log(Trial trial);
+	public abstract void log(Experiment experiment);
 
 	public abstract void finalizeLog();
 	
 	public PrintWriter getWriter() {
 		PrintWriter writer = null;
 		
-		if (!writers.containsKey(getFileName())) {
 			try {
 				// Writer with auto flush
-				String logDir = PropertyHolder.getInstance().getProperty("log.directory");
+//				String logDir = PropertyHolder.getInstance().getProperty("log.directory");
 				writer = new PrintWriter(new OutputStreamWriter(
-						new FileOutputStream(new File(logDir + getFileName()))),
+						new FileOutputStream(new File(getLogPath() + getFileName()))),
 						true);
 				writer.println(getHeader());
-				writers.put(getFileName(), writer);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-		} else {
-			writer = writers.get(getFileName());
-		}
 
 		return writer;
 	}
@@ -55,6 +52,16 @@ public abstract class Logger {
 	public abstract String getHeader();
 
 	public abstract String getFileName();
+
+	public String getLogPath() {
+		return logPath;
+	}
+
+	public void setLogPath(String logPath) {
+		this.logPath = logPath;
+	}
+
+	
 
 	
 

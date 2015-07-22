@@ -3,6 +3,7 @@ package edu.usf.experiment.log;
 import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.robot.LocalizableRobot;
 import edu.usf.experiment.subject.Subject;
@@ -10,8 +11,8 @@ import edu.usf.experiment.utils.ElementWrapper;
 
 public class SubjectPositionLogger extends PositionLogger {
 
-	public SubjectPositionLogger(ElementWrapper params) {
-		super(params);
+	public SubjectPositionLogger(ElementWrapper params, String logPath) {
+		super(params, logPath);
 	}
 
 	public void log(Subject sub) {
@@ -41,6 +42,11 @@ public class SubjectPositionLogger extends PositionLogger {
 	@Override
 	public String getHeader() {
 		return "trial\tgroup\tsubject\trepetition\tx\ty\trandom";
+	}
+
+	@Override
+	public void log(Experiment experiment) {
+		log(experiment.getSubject());		
 	}
 
 }

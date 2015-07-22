@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Experiment;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.universe.Universe;
@@ -15,8 +16,8 @@ public class WallLogger extends Logger {
 
 	private List<Wall> walls;
 
-	public WallLogger(ElementWrapper params) {
-		super(params);
+	public WallLogger(ElementWrapper params, String logPath) {
+		super(params, logPath);
 
 		walls = new LinkedList<Wall>();
 	}
@@ -64,6 +65,11 @@ public class WallLogger extends Logger {
 	@Override
 	public String getHeader() {
 		return "trial\tgroup\tsubject\trepetition\tx\ty\txend\tyend";
+	}
+
+	@Override
+	public void log(Experiment experiment) {
+		log(experiment.getUniverse());		
 	}
 
 	
