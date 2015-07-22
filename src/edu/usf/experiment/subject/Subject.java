@@ -81,8 +81,6 @@ public abstract class Subject {
 		return robot;
 	}
 
-	public abstract void setPassiveMode(boolean b);
-
 	public abstract List<Affordance> getPossibleAffordances();
 
 	public abstract float getMinAngle();

@@ -62,4 +62,8 @@ public class ElementWrapper {
 	public boolean getChildBoolean(String name) {
 		return Boolean.parseBoolean(getChildText(name));
 	}
+
+	public long getChildLong(String name) {
+		return Long.parseLong(getChildText(name));
+	}
 }

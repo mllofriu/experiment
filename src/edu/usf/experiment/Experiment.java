@@ -18,6 +18,7 @@ import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.universe.UniverseLoader;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
+import edu.usf.experiment.utils.RandomSingleton;
 import edu.usf.experiment.utils.XMLDocReader;
 import edu.usf.experiment.utils.XMLExperimentParser;
 
@@ -63,15 +64,20 @@ public class Experiment implements Runnable {
 		props.setProperty("group", groupName);
 		props.setProperty("subject", subjectName);
 
-		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml"); 
-		ElementWrapper root = XMLExperimentParser.loadRoot(logPath, experimentFile);
+		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml");
+		ElementWrapper root = XMLExperimentParser.loadRoot(logPath,
+				experimentFile);
 
 		universe = UniverseLoader.getInstance().load(root);
-		
+
 		Robot robot = RobotLoader.getInstance().load(root);
 
+		if (root.getChildText("seed") != null)
+			RandomSingleton.getInstance().setSeed(root.getChildLong("seed"));
+
 		// Load the subject using reflection and assign name and group
-		subject = XMLExperimentParser.loadSubject(root, groupName, subjectName, robot);
+		subject = XMLExperimentParser.loadSubject(root, groupName, subjectName,
+				robot);
 
 		// Load trials that apply to the subject
 		trials = XMLExperimentParser.loadTrials(root, subject, universe);
@@ -82,7 +88,6 @@ public class Experiment implements Runnable {
 		afterTasks = TaskLoader.getInstance().load(root.getChild("afterTasks"));
 		plotters = PlotterLoader.getInstance().load(root.getChild("plotters"));
 	}
-
 
 	/***
 	 * Runs the experiment for the especified subject. Just goes over trials and
@@ -120,7 +125,6 @@ public class Experiment implements Runnable {
 	public Universe getUniverse() {
 		return universe;
 	}
-
 
 	public Subject getSubject() {
 		return subject;
