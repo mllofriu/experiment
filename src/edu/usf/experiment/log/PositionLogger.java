@@ -1,26 +1,18 @@
 package edu.usf.experiment.log;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.vecmath.Point3f;
-
-import edu.usf.experiment.Episode;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public abstract class PositionLogger extends Logger {
 
 	private List<Pose> poses;
-	private static PrintWriter writer = null;
 	
-	public PositionLogger(ElementWrapper params){
-		super(params);
+	public PositionLogger(ElementWrapper params, String logPath){
+		super(params, logPath);
 		poses = new LinkedList<Pose>();
 	}
 

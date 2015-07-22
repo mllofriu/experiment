@@ -1,5 +1,6 @@
 package edu.usf.experiment;
 
+import java.io.File;
 import java.util.List;
 
 import edu.usf.experiment.condition.Condition;
@@ -24,56 +25,81 @@ import edu.usf.experiment.utils.ElementWrapper;
  * executed at the end.
  * 
  * @author mllofriu
- *
+ * 
  */
 public class Episode {
 
 	private Trial trial;
 	private int episodeNumber;
-	private List<Task> beforeTasks;
-	private List<Task> afterTasks;
-	private List<Plotter> plotters;
 	private List<Condition> stopConds;
 	private List<Task> beforeCycleTasks;
 	private List<Task> afterCycleTasks;
-	private List<Logger> loggers;
-	private List<Logger> afterLoggers;
 	private int sleep;
+	private String logPath;
+	private List<Task> beforeEpisodeTasks;
+	private List<Task> afterEpisodeTasks;
+	private List<Plotter> beforeEpisodePlotters;
+	private List<Plotter> afterEpisodePlotters;
+	private List<Logger> beforeEpisodeLoggers;
+	private List<Logger> beforeCycleLoggers;
+	private List<Logger> afterCycleLoggers;
+	private List<Logger> afterEpisodeLoggers;
 
-	public Episode(ElementWrapper episodeNode, Trial trial, int episodeNumber) {
+	public Episode(ElementWrapper episodeNode, String parentLogPath, Trial trial, int episodeNumber) {
 		this.trial = trial;
 		this.episodeNumber = episodeNumber;
 		this.sleep = episodeNode.getChildInt("sleep");
 
-		beforeTasks = TaskLoader.getInstance().load(
-				episodeNode.getChild("beforeTasks"));
+		logPath = parentLogPath
+				+ File.separator + episodeNumber + File.separator
+				+ getSubject().getGroup() + File.separator
+				+ getSubject().getName() + File.separator;
+
+		File file = new File(logPath);
+		file.mkdirs();
+
+		beforeEpisodeTasks = TaskLoader.getInstance().load(
+				episodeNode.getChild("beforeEpisodeTasks"));
 		beforeCycleTasks = TaskLoader.getInstance().load(
 				episodeNode.getChild("beforeCycleTasks"));
 		afterCycleTasks = TaskLoader.getInstance().load(
 				episodeNode.getChild("afterCycleTasks"));
-		afterTasks = TaskLoader.getInstance().load(
-				episodeNode.getChild("afterTasks"));
-		plotters = PlotterLoader.getInstance().load(
-				episodeNode.getChild("plotters"));
+		afterEpisodeTasks = TaskLoader.getInstance().load(
+				episodeNode.getChild("afterEpisodeTasks"));
 		stopConds = ConditionLoader.getInstance().load(
 				episodeNode.getChild("stopConditions"));
-		loggers = LoggerLoader.getInstance().load(episodeNode.getChild("loggers"));
-		afterLoggers = LoggerLoader.getInstance().load(episodeNode.getChild("afterLoggers"));
+		beforeEpisodePlotters = PlotterLoader.getInstance().load(
+				episodeNode.getChild("beforeEpisodePlotters"), logPath);
+		afterEpisodePlotters = PlotterLoader.getInstance().load(
+				episodeNode.getChild("afterEpisodePlotters"), logPath);
+		beforeEpisodeLoggers = LoggerLoader.getInstance().load(
+				episodeNode.getChild("beforeEpisodeLoggers"), logPath);
+		beforeCycleLoggers = LoggerLoader.getInstance().load(
+				episodeNode.getChild("beforeCycleLoggers"), logPath);
+		afterCycleLoggers = LoggerLoader.getInstance().load(
+				episodeNode.getChild("afterCycleLoggers"), logPath);
+		afterEpisodeLoggers = LoggerLoader.getInstance().load(
+				episodeNode.getChild("afterEpisodeLoggers"), logPath);
 	}
 
 	public void run() {
 		PropertyHolder props = PropertyHolder.getInstance();
 		props.setProperty("episode", new Integer(episodeNumber).toString());
-		
+		props.setProperty("log.directory", logPath);
+
 		System.out.println("Episode " + trial.getName() + " "
 				+ trial.getGroup() + " " + trial.getSubjectName() + " "
 				+ episodeNumber + " started.");
 
-		// Do all before trial tasks
-		for (Task task : beforeTasks)
-			task.perform(this);
-		
 		getSubject().newEpisode();
+		
+		// Do all before trial tasks
+		for (Task task : beforeEpisodeTasks)
+			task.perform(this);
+		for (Logger logger : beforeEpisodeLoggers)
+			logger.log(this);
+		for (Plotter plotter : beforeEpisodePlotters)
+			plotter.plot();
 
 		// Execute cycles until stop condition holds
 		boolean finished = false;
@@ -81,29 +107,30 @@ public class Episode {
 		while (!finished) {
 			for (Task t : beforeCycleTasks)
 				t.perform(this);
-			
+			for (Logger l : beforeCycleLoggers)
+				l.log(this);
+
 			getSubject().stepCycle();
 			// TODO: universe step cycle
 
 			for (Task t : afterCycleTasks)
 				t.perform(this);
-			
-			for (Logger l : loggers)
+			for (Logger l : afterCycleLoggers)
 				l.log(this);
-			
+
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)
 				finished = finished || sc.holds(this);
-			
+
 			if (Debug.printEndCycle)
 				System.out.println("End cycle");
-			
+
 			numCycles++;
 			if (numCycles % 1000 == 0)
 				System.out.print(".");
 			if (numCycles % 5000 == 0)
 				System.out.println("");
-			
+
 			if (!finished && sleep != 0)
 				try {
 					Thread.sleep(sleep);
@@ -111,27 +138,30 @@ public class Episode {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			
-			
+
 		}
-		
+
 		System.out.println();
+
 		
-		for (Logger l : afterLoggers){
+		// Finalize loggers
+		for (Logger l : afterCycleLoggers)
+			l.finalizeLog();
+		for (Logger l : beforeCycleLoggers)
+			l.finalizeLog();
+		for (Logger l : beforeEpisodeLoggers) 
+			l.finalizeLog();
+		for (Logger l : afterEpisodeLoggers) {
 			l.log(this);
 			l.finalizeLog();
 		}
-		
-		// Finalize loggers
-		for (Logger l : loggers)
-			l.finalizeLog();
 
 		// After trial tasks
-		for (Task task : afterTasks)
+		for (Task task : afterEpisodeTasks)
 			task.perform(this);
 
 		// Plotters
-		for (Plotter p : plotters)
+		for (Plotter p : afterEpisodePlotters)
 			p.plot();
 
 		System.out.println("Episode " + trial.getName() + " "

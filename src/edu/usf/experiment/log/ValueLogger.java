@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Experiment;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
@@ -19,8 +20,8 @@ public class ValueLogger extends Logger {
 	private float interval;
 	private boolean circle;
 
-	public ValueLogger(ElementWrapper params) {
-		super(params);
+	public ValueLogger(ElementWrapper params, String logPath) {
+		super(params, logPath);
 
 		numIntentions = params.getChildInt("numIntentions");
 		angleInterval = params.getChildFloat("angleInterval");
@@ -96,6 +97,11 @@ public class ValueLogger extends Logger {
 	@Override
 	public String getFileName() {
 		return "value.csv";
+	}
+
+	@Override
+	public void log(Experiment experiment) {
+		log(experiment.getUniverse(), experiment.getSubject());
 	}
 
 }

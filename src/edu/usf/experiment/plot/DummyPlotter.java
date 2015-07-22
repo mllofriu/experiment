@@ -4,8 +4,8 @@ import edu.usf.experiment.utils.ElementWrapper;
 
 public class DummyPlotter extends Plotter {
 
-	public DummyPlotter(ElementWrapper params) {
-		super(params);
+	public DummyPlotter(ElementWrapper params, String logPath) {
+		super(params, logPath);
 		System.out.println("Creating a dummy plotter");
 	}
 

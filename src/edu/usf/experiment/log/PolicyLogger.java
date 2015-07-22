@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import javax.vecmath.Point3f;
 
 import edu.usf.experiment.Episode;
+import edu.usf.experiment.Experiment;
 import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
@@ -19,8 +20,8 @@ public class PolicyLogger extends Logger {
 	private float angleInterval;
 	private float interval;
 
-	public PolicyLogger(ElementWrapper params) {
-		super(params);
+	public PolicyLogger(ElementWrapper params, String logPath) {
+		super(params, logPath);
 
 		numIntentions = params.getChildInt("numIntentions");
 		angleInterval = params.getChildFloat("angleInterval");
@@ -92,6 +93,11 @@ public class PolicyLogger extends Logger {
 	@Override
 	public void log(Episode episode) {
 		log(episode.getUniverse(), episode.getSubject());
+	}
+
+	@Override
+	public void log(Experiment experiment) {
+		log(experiment.getUniverse(), experiment.getSubject());
 	}
 
 }

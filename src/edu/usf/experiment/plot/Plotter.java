@@ -4,8 +4,18 @@ import edu.usf.experiment.utils.ElementWrapper;
 
 public abstract class Plotter {
 	
-	public Plotter(ElementWrapper params){
-		
+	private String logPath;
+
+	public String getLogPath() {
+		return logPath;
+	}
+
+	public void setLogPath(String logPath) {
+		this.logPath = logPath;
+	}
+
+	public Plotter(ElementWrapper params, String logPath){
+		this.logPath = logPath;
 	}
 
 	public abstract void plot();
