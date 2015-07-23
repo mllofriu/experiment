@@ -6,9 +6,9 @@ import java.util.Random;
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
-import edu.usf.experiment.task.Task;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
+import edu.usf.experiment.utils.RandomSingleton;
 
 /**
  * Task to activate a random feeder from the set of enabled ones
@@ -41,7 +41,7 @@ public class ActivateRandomFeeder extends Task {
 	private void perform(Universe u) {
 		List<Integer> enabledFeeders = u.getEnabledFeeders();
 
-		Random r = new Random();
+		Random r = RandomSingleton.getInstance();
 		int feeder = enabledFeeders.get(r.nextInt(enabledFeeders.size()));
 		u.setActiveFeeder(feeder, true);
 	}

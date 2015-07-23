@@ -6,9 +6,9 @@ import java.util.Random;
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
-import edu.usf.experiment.task.Task;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
+import edu.usf.experiment.utils.RandomSingleton;
 
 /**
  *Task to flash and activate a random feeder
@@ -45,7 +45,7 @@ public class FlashActivateRandomFeeder extends Task {
 //		for(Integer f : u.getActiveFeeders())
 //			u.setActiveFeeder(f, false);
 		
-		Random r = new Random();
+		Random r = RandomSingleton.getInstance();
 		int feeder = enabledFeeders.get(r.nextInt(enabledFeeders.size()));
 		u.setActiveFeeder(feeder, true);
 		u.setFlashingFeeder(feeder, true);

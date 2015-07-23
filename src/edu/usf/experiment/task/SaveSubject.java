@@ -1,12 +1,7 @@
 package edu.usf.experiment.task;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
-import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.utils.ElementWrapper;

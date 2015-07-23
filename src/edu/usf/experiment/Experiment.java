@@ -1,10 +1,8 @@
 package edu.usf.experiment;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
-
-import org.w3c.dom.Document;
+import java.util.Random;
 
 import edu.usf.experiment.log.Logger;
 import edu.usf.experiment.log.LoggerLoader;
@@ -16,14 +14,11 @@ import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.subject.SubjectLoader;
 import edu.usf.experiment.task.Task;
 import edu.usf.experiment.task.TaskLoader;
-import edu.usf.experiment.universe.Feeder;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.universe.UniverseLoader;
-import edu.usf.experiment.universe.Wall;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
 import edu.usf.experiment.utils.RandomSingleton;
-import edu.usf.experiment.utils.XMLDocReader;
 import edu.usf.experiment.utils.XMLExperimentParser;
 
 /**
@@ -85,8 +80,15 @@ public class Experiment implements Runnable {
 
 		Robot robot = RobotLoader.getInstance().load(root);
 
-		if (root.getChildText("seed") != null)
-			RandomSingleton.getInstance().setSeed(root.getChildLong("seed"));
+		long seed;
+		if (root.getChildText("seed") != null){
+			seed = root.getChildLong("seed");
+			System.out.println("Using seed from xml file");
+		} else {
+			seed = new Random().nextLong();
+		}
+		RandomSingleton.getInstance().setSeed(seed);
+		System.out.println("Using seed " + seed);
 
 		// Load the subject using reflection and assign name and group
 		subject = SubjectLoader.getInstance().load(subjectName, groupName,

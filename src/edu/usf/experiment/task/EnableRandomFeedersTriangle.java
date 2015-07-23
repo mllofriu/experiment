@@ -7,9 +7,9 @@ import java.util.Random;
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
-import edu.usf.experiment.task.Task;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
+import edu.usf.experiment.utils.RandomSingleton;
 
 /**
  * Task to enable a random list of feeders
@@ -23,7 +23,7 @@ public class EnableRandomFeedersTriangle extends Task {
 
 	public EnableRandomFeedersTriangle(ElementWrapper params) {
 		super(params);
-		r = new Random();
+		r = RandomSingleton.getInstance();
 	}
 
 	@Override

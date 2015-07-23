@@ -1,7 +1,6 @@
 package edu.usf.experiment.condition;
 
 import edu.usf.experiment.Episode;
-import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
 
 public class FoundFoodStopCond implements Condition {

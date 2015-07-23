@@ -1,7 +1,5 @@
 package edu.usf.experiment.task;
 
-import javax.vecmath.Point4f;
-
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;

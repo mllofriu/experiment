@@ -2,7 +2,6 @@ package edu.usf.experiment.plot;
 
 import java.net.URL;
 
-import edu.usf.experiment.PropertyHolder;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
 

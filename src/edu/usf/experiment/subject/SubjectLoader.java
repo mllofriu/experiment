@@ -2,13 +2,7 @@ package edu.usf.experiment.subject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.reflections.Reflections;
 
 import edu.usf.experiment.robot.Robot;
 import edu.usf.experiment.utils.ElementWrapper;

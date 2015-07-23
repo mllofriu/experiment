@@ -12,6 +12,7 @@ import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
+import edu.usf.experiment.utils.RandomSingleton;
 
 public class AddRandomWallsTask extends Task {
 
@@ -47,7 +48,7 @@ public class AddRandomWallsTask extends Task {
 	}
 
 	private void perform(Universe univ) {
-		Random random = new Random();
+		Random random = RandomSingleton.getInstance();
 
 		for (int i = 0; i < numWalls; i++) {
 			Point2f x1, x2, x3;

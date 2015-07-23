@@ -15,6 +15,7 @@ import edu.usf.experiment.Trial;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.ElementWrapper;
+import edu.usf.experiment.utils.RandomSingleton;
 
 public class AddLargeWallsTask extends Task {
 
@@ -49,7 +50,7 @@ public class AddLargeWallsTask extends Task {
 	}
 
 	private void perform(Universe univ, Subject sub) {
-		Random random = new Random();
+		Random random = RandomSingleton.getInstance();
 
 		List<Point2f> nearWall;
 		LineSegment wall, wall2;

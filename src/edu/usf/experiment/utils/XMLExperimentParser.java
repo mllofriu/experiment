@@ -6,9 +6,7 @@ import java.util.List;
 import org.w3c.dom.Document;
 
 import edu.usf.experiment.Trial;
-import edu.usf.experiment.robot.Robot;
 import edu.usf.experiment.subject.Subject;
-import edu.usf.experiment.subject.SubjectLoader;
 import edu.usf.experiment.universe.Universe;
 
 public class XMLExperimentParser {
