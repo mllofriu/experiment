@@ -10,8 +10,8 @@ import edu.usf.experiment.utils.ElementWrapper;
 
 public class DummyUniverse extends Universe {
 
-	public DummyUniverse(ElementWrapper params){
-		super(params);
+	public DummyUniverse(ElementWrapper params, String logPath){
+		super(params, logPath);
 		System.out.println("Dummy universe created");
 	}
 

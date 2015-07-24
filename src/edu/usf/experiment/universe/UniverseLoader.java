@@ -34,7 +34,7 @@ public class UniverseLoader {
 //		}
 	}
 
-	public Universe load(ElementWrapper root) {
+	public Universe load(ElementWrapper root, String logPath) {
 		ElementWrapper universeNode = root.getChild("universe");
 		try {
 			Constructor constructor;
@@ -43,9 +43,9 @@ public class UniverseLoader {
 //					ElementWrapper.class);
 			constructor = Class.forName(
 					universeNode.getChildText("name")).getConstructor(
-					ElementWrapper.class);
+					ElementWrapper.class, String.class);
 			Universe universe = (Universe) constructor.newInstance(universeNode
-					.getChild("params"));
+					.getChild("params"), logPath);
 			return universe;
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();

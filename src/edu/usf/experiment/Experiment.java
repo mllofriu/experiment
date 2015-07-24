@@ -76,7 +76,7 @@ public class Experiment implements Runnable {
 		IOUtils.copyFile(mazeFile, logPath + "/maze.xml");
 		props.setProperty("maze.file", logPath + "/maze.xml");
 
-		universe = UniverseLoader.getInstance().load(root);
+		universe = UniverseLoader.getInstance().load(root, logPath);
 
 		Robot robot = RobotLoader.getInstance().load(root);
 

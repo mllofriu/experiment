@@ -36,7 +36,7 @@ public abstract class Universe {
 	private List<Wall> innerWalls;
 
 
-	public Universe(ElementWrapper params) {
+	public Universe(ElementWrapper params, String logPath) {
 		CLOSE_TO_FOOD_THRS = params.getChildFloat("closeToFoodThrs");
 
 		String mazeFile = params.getChildText("maze");
@@ -44,8 +44,7 @@ public abstract class Universe {
 		walls = new LinkedList<Wall>();
 		feeders = new LinkedList<Feeder>();
 
-		PropertyHolder props = PropertyHolder.getInstance();
-		String dstMazeFile = props.getProperty("log.directory") + "maze.xml";
+		String dstMazeFile = logPath + "maze.xml";
 		IOUtils.copyFile(mazeFile, dstMazeFile);
 		Document doc = XMLDocReader.readDocument(dstMazeFile);
 		ElementWrapper maze = new ElementWrapper(doc.getDocumentElement());
