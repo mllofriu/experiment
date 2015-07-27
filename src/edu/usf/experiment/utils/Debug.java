@@ -28,6 +28,7 @@ public class Debug {
 	public static boolean printAttentional = print && false;
 	public static boolean printConjCells = print && false;
 	public static boolean printHalfAndHalf = print && false;
-	public static boolean printExecutionOrder = print && false;	
+	public static boolean printExecutionOrder = print && false;
+	public static boolean printSchedulling = print && false;	
 	
 }
