@@ -68,11 +68,21 @@ ratPathPointsPlot <- function(pathData, p){
 }
 
 ratStartPointPlot <- function (pathData, p){
-  p + geom_point(data=head(pathData, n=1), aes(x,y), col="green", bg="green",cex=4)
+  p + geom_point(data=head(pathData, n=1), aes(x,y), col="red", bg="red",cex=4)
 }
 
 ratEndPointPlot <- function (pathData, p){
   p + geom_point(data=tail(pathData, n=1),aes(x,y), col="blue", bg="blue", cex=4)
+}
+
+stopPointsPlot <- function (pathData) {
+  interval <- 21
+  pathDataNext <- pathData[c(interval:nrow(pathData),seq(1,interval-1)),]
+  stopPoints <- pathData[pathData$x == pathDataNext$x & pathData$y == pathDataNext$y,]
+  if (nrow(stopPoints)>0)
+    geom_point(data=stopPoints, aes(x,y), col="green", bg="green", cex=4)
+  else
+    list()
 }
 
 wallPlot <- function(wallData,p){
@@ -91,8 +101,10 @@ plotPathOnMaze <- function (preName, name, pathData, wallData, maze){
   p <- p + maze
   p <- ratPathPlot(pathData, p)
   #  p <- ratPathPointsPlot(pathData, p)
-  p <- ratStartPointPlot(pathData, p)
-  p <- ratEndPointPlot(pathData, p)
+  #p <- ratStartPointPlot(pathData, p)
+  #p <- ratEndPointPlot(pathData, p)
+  
+  p <- p + stopPointsPlot(pathData)
 
   
   p <- wallPlot(wallData, p)
