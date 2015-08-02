@@ -9,10 +9,12 @@ public class FoundNFoodNoMistakesStopCond implements Condition {
 
 	private int n;
 	private int toGo;
+	private boolean pardoned;
 
 	public FoundNFoodNoMistakesStopCond(ElementWrapper condParams) {
 		n = condParams.getChildInt("n");
 		toGo = n;
+		pardoned = false;
 	}
 
 	@Override
@@ -21,8 +23,12 @@ public class FoundNFoodNoMistakesStopCond implements Condition {
 
 		if (sub.hasEaten()) {
 			toGo--;
-		} else if (sub.hasTriedToEat())
+			pardoned = false;
+		} else if (sub.hasTriedToEat() && pardoned){
 			toGo = n;
+			pardoned = false;
+		} else if (sub.hasTriedToEat() && !pardoned)
+			pardoned = true;
 
 		
 		if (Debug.printFoundNNoMistakes)

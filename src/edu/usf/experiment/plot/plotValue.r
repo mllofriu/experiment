@@ -97,7 +97,7 @@ plotValueOnMaze <- function (preName, name, valData, wallData, maze){
   dim(valDataInterp$z) <- c(length(xo)*length(yo), 1)
   valDataInterpDf$val <- valDataInterp$z
   p <- p + geom_raster(data = valDataInterpDf, aes(x=x, y=y, fill=val)) #+ scale_fill_gradient(low="white", high="red")
-  p <- p + scale_fill_gradient2(limits=c(-1000, 10000))
+  p <- p + scale_fill_gradient2()
   p <- p + maze
   
   p <- wallPlot(wallData, p)
@@ -108,7 +108,7 @@ plotValueOnMaze <- function (preName, name, valData, wallData, maze){
   if (name == '')
     print(p)  
   else
-    ggsave(plot=p,filename=paste("plots/value/",preName,name,
+    ggsave(plot=p,filename=paste("plots/value/value",preName,name,
                                  ".png", sep=''), width=10, height=10)
   
 }

@@ -122,8 +122,10 @@ public class Experiment implements Runnable {
 		// Do all before trial tasks
 		for (Task task : beforeTasks)
 			task.perform(this);
-		for (Logger logger : beforeLoggers)
+		for (Logger logger : beforeLoggers){
 			logger.log(this);
+			logger.finalizeLog();
+		}
 		for (Plotter plotter : beforePlotters)
 			plotter.plot();
 
@@ -135,12 +137,10 @@ public class Experiment implements Runnable {
 		for (Task task : afterTasks)
 			task.perform(this);
 		// Log and finalize
-		for (Logger logger : afterLoggers)
+		for (Logger logger : afterLoggers){
 			logger.log(this);
-		for (Logger logger : beforeLoggers)
 			logger.finalizeLog();
-		for (Logger logger : afterLoggers)
-			logger.finalizeLog();
+		}
 		// Plot
 		for (Plotter plotter : afterPlotters)
 			plotter.plot();
