@@ -85,6 +85,27 @@ stopPointsPlot <- function (pathData) {
     list()
 }
 
+atePointsPlot <- function (pathData) {
+  pathData$ate <- as.logical(pathData$ate)
+  atePoints <- pathData[pathData$ate,]
+  if (nrow(atePoints)>0)
+    atePlot <- geom_point(data=atePoints, aes(x,y), col="green", bg="green", cex=4)
+  else
+    list()
+}
+
+triedToEatPointsPlot <- function (pathData) {
+  pathData$ate <- as.logical(pathData$ate)
+  pathData$triedToEat <- as.logical(pathData$triedToEat)
+  triedToEatPoints <- pathData[pathData$triedToEat & !pathData$ate,]
+  if (nrow(triedToEatPoints)>0)
+    atePlot <- geom_point(data=triedToEatPoints, aes(x,y), col="red", bg="red", cex=4)
+  else
+    list()
+}
+
+
+
 wallPlot <- function(wallData,p){
 
   if (!is.null(wallData)){
@@ -104,8 +125,10 @@ plotPathOnMaze <- function (preName, name, pathData, wallData, maze){
   #p <- ratStartPointPlot(pathData, p)
   #p <- ratEndPointPlot(pathData, p)
   
-  p <- p + stopPointsPlot(pathData)
-
+  #p <- p + stopPointsPlot(pathData)
+ 
+  p <- p + atePointsPlot(pathData)
+  p <- p + triedToEatPointsPlot(pathData)
   
   p <- wallPlot(wallData, p)
 

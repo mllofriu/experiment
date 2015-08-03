@@ -21,7 +21,7 @@ public class SubjectPositionLogger extends PositionLogger {
 		
 		LocalizableRobot r = (LocalizableRobot) sub.getRobot();
 		Point3f pos = r.getPosition();
-		addPose(new Pose(pos.x, pos.y, false));
+		addPose(new Pose(pos.x, pos.y, false, sub.hasTriedToEat(), sub.hasEaten()));
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class SubjectPositionLogger extends PositionLogger {
 
 	@Override
 	public String getHeader() {
-		return "trial\tgroup\tsubject\trepetition\tx\ty\trandom";
+		return "trial\tgroup\tsubject\trepetition\tx\ty\trandom\ttriedToEat\tate";
 	}
 
 	@Override

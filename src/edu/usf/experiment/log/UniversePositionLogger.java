@@ -17,7 +17,7 @@ public class UniversePositionLogger extends PositionLogger {
 
 	public void log(Universe univ) {
 		Point3f pos = univ.getRobotPosition();
-		addPose(new Pose(pos.x, pos.y, false));
+		addPose(new Pose(pos.x, pos.y, false, false, false));
 	}
 	
 	@Override

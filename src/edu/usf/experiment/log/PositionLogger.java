@@ -28,7 +28,7 @@ public abstract class PositionLogger extends Logger {
 			for (Pose pose : poses)
 				writer.println(trialName + '\t' + groupName + '\t' + subName
 						+ '\t' + episode + '\t' + pose.x + "\t" + pose.y + "\t"
-						+ pose.randomAction);
+						+ pose.randomAction + '\t' + pose.triedToEat + '\t' + pose.ate);
 			poses.clear();
 		}
 	}
