@@ -1,5 +1,8 @@
 package edu.usf.experiment.condition;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.subject.Subject;
 import edu.usf.experiment.utils.Debug;
@@ -9,12 +12,12 @@ public class FoundNFoodNoMistakesStopCond implements Condition {
 
 	private int n;
 	private int toGo;
-	private boolean pardoned;
+	private List<Boolean> flashing;
 
 	public FoundNFoodNoMistakesStopCond(ElementWrapper condParams) {
 		n = condParams.getChildInt("n");
 		toGo = n;
-		pardoned = false;
+		flashing = new LinkedList<Boolean>();
 	}
 
 	@Override
@@ -22,19 +25,27 @@ public class FoundNFoodNoMistakesStopCond implements Condition {
 		Subject sub = episode.getSubject();
 
 		if (sub.hasEaten()) {
+			flashing.add(sub.getRobot().getClosestFeeder().isFlashing());
 			toGo--;
-			pardoned = false;
-		} else if (sub.hasTriedToEat() && pardoned){
+		} else if (sub.hasTriedToEat()) {
 			toGo = n;
-			pardoned = false;
-		} else if (sub.hasTriedToEat() && !pardoned)
-			pardoned = true;
+		}
 
-		
 		if (Debug.printFoundNNoMistakes)
 			System.out.println("Feeders to go " + toGo);
 
-		return toGo <= 0;
+		return toGo <= 0 && countFlashing(flashing, n) <= 2;
+	}
+
+	private int countFlashing(List<Boolean> flashing, int n) {
+		List<Boolean> lastVisited = flashing.subList(flashing.size() - n,
+				flashing.size() - 1);
+		int count = 0;
+		for (Boolean flash : lastVisited)
+			if (flash)
+				count++;
+
+		return count;
 	}
 
 }

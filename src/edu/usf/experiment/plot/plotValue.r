@@ -97,10 +97,15 @@ plotValueOnMaze <- function (preName, name, valData, wallData, maze){
   dim(valDataInterp$z) <- c(length(xo)*length(yo), 1)
   valDataInterpDf$val <- valDataInterp$z
   p <- p + geom_raster(data = valDataInterpDf, aes(x=x, y=y, fill=val)) #+ scale_fill_gradient(low="white", high="red")
-  p <- p + scale_fill_gradient2()
+  p <- p + scale_fill_gradient2(limits=c(-1000,10000))
   p <- p + maze
   
   p <- wallPlot(wallData, p)
+  
+  segLen <- .1
+  angle <- valData[1,'angle']
+  arrowDF <- segLen * data.frame(x=-cos(angle), y=-sin(angle), xend=cos(angle), yend=sin(angle))
+  p <- p + geom_segment(data=arrowDF, aes(x, y, xend=xend, yend=yend), size=1.5, arrow = arrow(length = unit(2,"cm"), type="closed"))
 
   # Some aesthetic stuff
   p <- mazePlotTheme(p)
@@ -124,8 +129,15 @@ load(valueFile)
 valData <- data
 load(wallsFile)
 wallData <- data
-splitVal <- split(valData, valData[c('trial', 'group', 'subject', 'repetition')], drop=TRUE)
-splitWalls <- split(wallData, wallData[c('trial', 'group', 'subject', 'repetition')], drop=TRUE)
+splitValIntention <- split(valData, valData[c('trial', 'group', 'subject', 'repetition', 'intention')], drop=TRUE)
+
 invisible(llply(
-  names(splitVal), function(x) plotValueOnMaze(
-     "", x, splitVal[[x]], splitWalls[[x]], maze), .parallel = FALSE))
+  names(splitValIntention), function(x){
+    if (min(splitValIntention[[x]]$val) != 0 || max (splitValIntention[[x]]$val) != 0){
+      splitValIntentionAngle <- split(splitValIntention[[x]], splitValIntention[[x]][c('trial', 'group', 'subject', 'repetition', 'intention', 'angle')], drop=TRUE)
+      llply(names(splitValIntentionAngle), function(y){
+        plotValueOnMaze(
+          "", y, splitValIntentionAngle[[y]], wallData, maze)}, .parallel = FALSE)
+      } 
+    }, .parallel = FALSE)
+) 

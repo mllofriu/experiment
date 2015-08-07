@@ -2,6 +2,7 @@ package edu.usf.experiment.subject;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.vecmath.Point3f;
 
@@ -101,7 +102,7 @@ public abstract class Subject {
 
 	public abstract void setExplorationVal(float i);
 
-	public abstract void restoreExploration();
+//	public abstract void restoreExploration();
 
 	/**
 	 * Returns the value of the position, orientation and intention
@@ -109,5 +110,5 @@ public abstract class Subject {
 	 * @param angle
 	 * @return
 	 */
-	public abstract float getValue(Point3f point3f, int intention, float angleInterval, float distToWall);
+	public abstract Map<Float, Float> getValue(Point3f point3f, int intention, float angleInterval, float distToWall);
 }

@@ -41,4 +41,6 @@ public abstract class LocalizableRobot extends Robot {
 	public abstract List<Feeder> getAllFeeders();
 
 	public abstract float getDistanceToClosestWall();
+
+	public abstract float getHalfFieldView();
 }

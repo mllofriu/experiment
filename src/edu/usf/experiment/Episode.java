@@ -94,10 +94,10 @@ public class Episode {
 		getSubject().newEpisode();
 		
 		// Do all before trial tasks
-		for (Task task : beforeEpisodeTasks)
-			task.perform(this);
 		for (Logger logger : beforeEpisodeLoggers)
 			logger.log(this);
+		for (Task task : beforeEpisodeTasks)
+			task.perform(this);
 		for (Plotter plotter : beforeEpisodePlotters)
 			plotter.plot();
 
@@ -105,18 +105,18 @@ public class Episode {
 		boolean finished = false;
 		int numCycles = 0;
 		while (!finished) {
-			for (Task t : beforeCycleTasks)
-				t.perform(this);
 			for (Logger l : beforeCycleLoggers)
 				l.log(this);
+			for (Task t : beforeCycleTasks)
+				t.perform(this);
 
 			getSubject().stepCycle();
 			// TODO: universe step cycle
 
-			for (Task t : afterCycleTasks)
-				t.perform(this);
 			for (Logger l : afterCycleLoggers)
 				l.log(this);
+			for (Task t : afterCycleTasks)
+				t.perform(this);
 
 			// Evaluate stop conditions
 			for (Condition sc : stopConds)

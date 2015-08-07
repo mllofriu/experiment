@@ -155,7 +155,7 @@ public class Experiment implements Runnable {
 		Experiment e = new Experiment(args[0], args[1], args[2], args[3]);
 		e.run();
 
-		System.exit(0);
+//		System.exit(0);
 	}
 
 	public Universe getUniverse() {

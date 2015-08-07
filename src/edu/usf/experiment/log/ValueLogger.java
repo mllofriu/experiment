@@ -1,6 +1,7 @@
 package edu.usf.experiment.log;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.vecmath.Point3f;
 
@@ -40,10 +41,11 @@ public class ValueLogger extends Logger {
 		System.out.println("Starting to log value");
 
 		for (int intention = 0; intention < numIntentions; intention++) {
-			for (float xInc = 0; xInc
-					 < univ.getBoundingRectangle().getWidth() + interval; xInc += interval) {
-				for (float yInc = 0; yInc
-						< univ.getBoundingRectangle().getHeight() + interval; yInc += interval) {
+//			System.out.println("Logging intention " + intention);
+			for (float xInc = 0; xInc < univ.getBoundingRectangle().getWidth()
+					+ interval; xInc += interval) {
+				for (float yInc = 0; yInc < univ.getBoundingRectangle()
+						.getHeight() + interval; yInc += interval) {
 
 					float x = (float) (univ.getBoundingRectangle().getMinX() + xInc);
 					float y = (float) (univ.getBoundingRectangle().getMinY() + yInc);
@@ -53,13 +55,15 @@ public class ValueLogger extends Logger {
 					if (!circle
 							|| inCircle(x, y, univ.getBoundingRectangle()
 									.getWidth())) {
-						
-						float maxVal = sub.getValue(p,
+
+						Map<Float, Float> angleVals = sub.getValue(p,
 								intention, angleInterval, distToWall);
 
-						writer.println(trialName + '\t' + groupName + '\t'
-								+ subName + '\t' + episodeName + '\t' + x
-								+ "\t" + y + "\t" + intention + "\t" + maxVal);
+						for (Float k : angleVals.keySet())
+							writer.println(trialName + '\t' + groupName + '\t'
+									+ subName + '\t' + episodeName + '\t' + x
+									+ "\t" + y + "\t" + intention + "\t" + k
+									+ "\t" + angleVals.get(k));
 					}
 					System.out.print(".");
 				}
@@ -68,12 +72,12 @@ public class ValueLogger extends Logger {
 
 		System.out.println("Finished loggin value");
 	}
-	
+
 	@Override
 	public void log(Trial trial) {
 		log(trial.getUniverse(), trial.getSubject());
 	}
-	
+
 	@Override
 	public void log(Episode episode) {
 		log(episode.getUniverse(), episode.getSubject());
@@ -90,7 +94,7 @@ public class ValueLogger extends Logger {
 
 	@Override
 	public String getHeader() {
-		return "trial\tgroup\tsubject\trepetition\tx\ty\tintention\tval";
+		return "trial\tgroup\tsubject\trepetition\tx\ty\tintention\tangle\tval";
 	}
 
 	@Override

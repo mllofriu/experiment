@@ -128,4 +128,10 @@ public class DummyLocalizableRobot extends LocalizableRobot {
 		return null;
 	}
 
+	@Override
+	public float getHalfFieldView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
