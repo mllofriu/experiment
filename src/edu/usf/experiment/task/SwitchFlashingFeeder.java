@@ -53,12 +53,13 @@ public class SwitchFlashingFeeder extends Task {
 			List<Integer> enabled = u.getEnabledFeeders();
 			enabled.remove(new Integer(feeder));
 			for (Integer f : enabled){
-				u.setActiveFeeder(f, true);
+//				u.setActiveFeeder(f, true);
 				u.setFlashingFeeder(f, false);
 			}
 			
 			// Pick an active one and flash
 			int toFlash = enabled.get(random.nextInt(enabled.size()));
+			u.setActiveFeeder(toFlash, true);
 			u.setFlashingFeeder(toFlash, true);
 		}
 	}

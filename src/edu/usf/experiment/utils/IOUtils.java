@@ -21,42 +21,31 @@ public class IOUtils {
 
 	public static void exec(String cmd, String dir) {
 		try {
-			final Process plot = Runtime.getRuntime().exec(cmd, null,
-					new File(dir));
-			
-			
-			Thread executor = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						BufferedReader in = new BufferedReader(new InputStreamReader(
-								plot.getInputStream()));
-						String line = null;
-						while ((line = in.readLine()) != null) {
-							System.out.println(line);
-						}
+			Process plot = Runtime.getRuntime().exec(cmd, null, new File(dir));
 
-						BufferedReader err = new BufferedReader(new InputStreamReader(
-								plot.getErrorStream()));
-						line = null;
-						while ((line = err.readLine()) != null) {
-							System.out.println(line);
-						}
-						
-						plot.waitFor();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						plot.getInputStream()));
+				String line = null;
+				while ((line = in.readLine()) != null) {
+					System.out.println(line);
 				}
-			});
-			executor.setDaemon(false);
-			executor.start();
-			
-//			plot.waitFor();
+
+				BufferedReader err = new BufferedReader(new InputStreamReader(
+						plot.getErrorStream()));
+				line = null;
+				while ((line = err.readLine()) != null) {
+					System.out.println(line);
+				}
+
+				plot.waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

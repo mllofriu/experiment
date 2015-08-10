@@ -9,7 +9,7 @@ public class Debug {
 	public static boolean print = false;
 	
 	public static boolean printValues = print && true;
-	public static boolean printEndCycle = print && false;
+	public static boolean printEndCycle = print && true;
 	public static boolean printAnyGoal = print && false;
 	public static boolean printTaxic = print && false;
 	public static boolean printActiveGoal = print && false;
@@ -20,7 +20,7 @@ public class Debug {
 	public static boolean printHDCells = print && false;
 	public static boolean printGiveFood = print && false;
 	public static boolean printTaxicBh = print && false;
-	public static boolean printSelectedValues = print && false;	
+	public static boolean printSelectedValues = print && true;	
 	public static boolean printRobotEaten = print && false;
 	public static boolean printFeederCells = print && false;
 	public static boolean printJointMultiply = print && false;
@@ -31,6 +31,7 @@ public class Debug {
 	public static boolean printExecutionOrder = print && false;
 	public static boolean printSchedulling = print && false;
 	public static boolean printDelta = print && false;
-	public static boolean printSilentSynapses = print && false;	
+	public static boolean printSilentSynapses = print && false;
+	public static boolean printValueAfter = print && true;	
 	
 }
