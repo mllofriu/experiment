@@ -152,7 +152,7 @@ public class Experiment implements Runnable {
 			System.out.println("Usage: java edu.usf.experiment "
 					+ "exprimentLayout logPath individual group");
 
-		Experiment e = new Experiment(args[0], args[1], args[2], args[3]);
+		Experiment e = new Experiment(args[0], args[1] + "/", args[2], args[3]);
 		e.run();
 
 		System.exit(0);
