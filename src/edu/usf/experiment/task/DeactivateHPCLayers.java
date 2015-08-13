@@ -24,8 +24,8 @@ public class DeactivateHPCLayers extends Task {
 		super(params);
 
 		group = params.getChildText("group");
-		String feeders = params.getChildText("layers");
-		StringTokenizer tok = new StringTokenizer(feeders,",");
+		String layers = params.getChildText("layers");
+		StringTokenizer tok = new StringTokenizer(layers,",");
 		indexList = new LinkedList<Integer>();
 		while (tok.hasMoreTokens())
 			indexList.add(Integer.parseInt(tok.nextToken()));

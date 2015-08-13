@@ -14,9 +14,8 @@ public class PlotGatherer extends Plotter {
 	@Override
 	public void plot() {
 		String logPath = getLogPath();
-		IOUtils.exec("mkdir plots", logPath);
-		IOUtils.exec("find . -iname '*.pdf' -exec ln {} plots/ \\;", logPath);
-		IOUtils.exec("find . -iname '*.png' -exec ln {} plots/ \\;", logPath);
+		IOUtils.exec("find . -iname '*.pdf' -exec ln {} plots/ ;", logPath);
+		IOUtils.exec("find . -iname '*.png' -exec ln {} plots/ ;", logPath);
 	}
 
 }
