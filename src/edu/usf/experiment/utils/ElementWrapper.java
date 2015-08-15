@@ -2,6 +2,7 @@ package edu.usf.experiment.utils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -65,5 +66,14 @@ public class ElementWrapper {
 
 	public long getChildLong(String name) {
 		return Long.parseLong(getChildText(name));
+	}
+
+	public List<Float> getChildFloatList(String name) {
+		String listString = getChildText(name);
+		List<Float> list = new LinkedList<Float>();
+		StringTokenizer tok = new StringTokenizer(listString,",");
+		while (tok.hasMoreTokens())
+			list.add(Float.parseFloat(tok.nextToken()));
+		return list;
 	}
 }
