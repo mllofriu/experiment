@@ -76,4 +76,13 @@ public class ElementWrapper {
 			list.add(Float.parseFloat(tok.nextToken()));
 		return list;
 	}
+
+	public List<Integer> getChildIntList(String name) {
+		String listString = getChildText(name);
+		List<Integer> list = new LinkedList<Integer>();
+		StringTokenizer tok = new StringTokenizer(listString,",");
+		while (tok.hasMoreTokens())
+			list.add(Integer.parseInt(tok.nextToken()));
+		return list;
+	}
 }
