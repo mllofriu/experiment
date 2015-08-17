@@ -52,6 +52,7 @@ public class Experiment implements Runnable {
 
 		// logPath = logPath + File.separator + groupName + File.separator
 		// + subjectName + File.separator;
+		logPath = logPath + "/";
 
 		// Halt execution if log folder is already there
 		File file = new File(logPath);

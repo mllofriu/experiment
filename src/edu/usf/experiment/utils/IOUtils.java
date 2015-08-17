@@ -14,23 +14,27 @@ import org.apache.commons.io.FileUtils;
 public class IOUtils {
 
 	public static void copyFile(String src, String dst) {
-		FileChannel fc = null;
-		try {
-			fc = FileChannel.open(Paths.get(src), StandardOpenOption.WRITE);
-			fc.lock();
-			FileUtils.copyFile(new File(src), new File(dst));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (fc != null)
-				try {
-					fc.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if (!(new File(dst).exists())){
+			FileChannel fc = null;
+			try {
+				fc = FileChannel.open(Paths.get(src), StandardOpenOption.WRITE);
+				fc.lock();
+				FileUtils.copyFile(new File(src), new File(dst));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (fc != null)
+					try {
+						fc.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
 		}
+
+		
 	}
 
 	public static void exec(String cmd, String dir) {
