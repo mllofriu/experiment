@@ -8,7 +8,7 @@ plotArrival <- function(pathData, plotName){
   summarizedRunTimes <- ddply(summarizedRunTimes, .(group), summarise, repetition=repetition, mRT=mRT, sdRT=sdRT, runmedian = runmed(mRT, 31))
 #   print(pathData[1,'trial'])
   p <- ggplot(pathData, aes(x=group, y = runtime)) 
-  p <- p + geom_boxplot(aes(fill=group),position=position_dodge(1)) #+ geom_jitter()
+  p <- p + geom_boxplot(aes(fill=group),position=position_dodge(1)) + geom_jitter()
   #p <- p + geom_bar(data=summarizedRunTimes, mapping=aes(x=Group, y = mRT), stat='identity')
   p <- p + ylab("Num. of Steps") + xlab("Group") 
   p <- p + theme(legend.text = element_text(size=16), legend.title = element_text(size=16), text = element_text(size=16)) 
@@ -22,6 +22,7 @@ runtimeFrames<-lapply(files,function(x) {load(x); summarizedRunTimes['file'] <- 
 runtimes<-Reduce(function(x,y) merge (x,y, all=T), runtimeFrames)
 # names(runtimes)[2] <- "Group"
 #levels(runtimes$Group) <- c("Multi-Scale (3 Layers)", "Small Scale (1 Layer)", "Medium Scale (1 Layer)", "Large Scale (1 Layer)")
+runtimes <- runtimes[runtimes$runtime != 200000,]
 ddply(runtimes, .(trial), function(x) plotArrival(x, plotName="runtimes"))
 
  
