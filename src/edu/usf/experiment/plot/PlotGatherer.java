@@ -1,6 +1,6 @@
 package edu.usf.experiment.plot;
 
-import java.net.URL;
+import java.io.File;
 
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.IOUtils;
@@ -14,8 +14,10 @@ public class PlotGatherer extends Plotter {
 	@Override
 	public void plot() {
 		String logPath = getLogPath();
-		IOUtils.exec("find . -iname '*.pdf' -exec ln {} plots/ ;", logPath);
-		IOUtils.exec("find . -iname '*.png' -exec ln {} plots/ ;", logPath);
+		System.out.println("Gathering plots on " + logPath);
+		new File(logPath + "/plots/").mkdir();
+		IOUtils.exec("find . -iname *.pdf -exec ln {} plots/ ;", logPath);
+		IOUtils.exec("find . -iname *.png -exec ln {} plots/ ;", logPath);
 	}
 
 }
