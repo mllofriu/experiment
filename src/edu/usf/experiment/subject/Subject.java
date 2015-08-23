@@ -98,7 +98,7 @@ public abstract class Subject {
 	
 	public abstract Affordance getHypotheticAction(Point3f pos, float theta, int intention);
 
-	public abstract void deactivateHPCLayers(LinkedList<Integer> indexList, float proportion);
+	public abstract void deactivateHPCLayers(LinkedList<Integer> indexList, float proportion, boolean remap);
 
 	public abstract void setExplorationVal(float i);
 
