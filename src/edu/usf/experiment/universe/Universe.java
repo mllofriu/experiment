@@ -356,4 +356,8 @@ public abstract class Universe {
 		return getDistanceToClosestWall(getRobotPosition());
 	}
 
+	public boolean isFeederEnabled(int feeder) {
+		return feeders.get(feeder).isEnabled();
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.subject.Subject;
+import edu.usf.experiment.universe.Universe;
 import edu.usf.experiment.utils.Debug;
 import edu.usf.experiment.utils.ElementWrapper;
 
@@ -13,24 +14,33 @@ public class FoundNFoodNoMistakesStopCond implements Condition {
 	private int n;
 	private int toGo;
 	private List<Boolean> flashing;
+	private int lastFeeder;
 
 	public FoundNFoodNoMistakesStopCond(ElementWrapper condParams) {
 		n = condParams.getChildInt("n");
 		toGo = n;
 		flashing = new LinkedList<Boolean>();
+		lastFeeder = -1;
 	}
 
 	@Override
 	public boolean holds(Episode episode) {
 		Subject sub = episode.getSubject();
-
-		if (sub.hasEaten()) {
-			flashing.add(sub.getRobot().getClosestFeeder().isFlashing());
-			toGo--;
-		} else if (sub.hasTriedToEat()) {
-			toGo = n;
+		Universe u = episode.getUniverse();
+		if (sub.hasTriedToEat() && u.getFoundFeeder() != -1) {
+			if (!u.isFeederEnabled(u.getFoundFeeder())) {
+				// Trying to eat from wrong feeder
+				toGo = n;
+			} else if (u.getFoundFeeder() != lastFeeder) {
+				// Eating from an enabled feeder
+				flashing.add(u.isFeederFlashing(u.getFoundFeeder()));
+				toGo--;
+				lastFeeder = u.getFoundFeeder();
+			} else {
+				// If eating from enabled feeder but same as last one, no
+				// penalization
+			}
 		}
-
 		if (Debug.printFoundNNoMistakes)
 			System.out.println("Feeders to go " + toGo);
 
