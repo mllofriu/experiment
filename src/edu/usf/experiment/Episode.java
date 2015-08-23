@@ -87,7 +87,7 @@ public class Episode {
 		props.setProperty("episode", new Integer(episodeNumber).toString());
 		props.setProperty("log.directory", logPath);
 
-		System.out.println("Episode " + trial.getName() + " "
+		System.out.println("[+] Episode " + trial.getName() + " "
 				+ trial.getGroup() + " " + trial.getSubjectName() + " "
 				+ episodeNumber + " started.");
 
@@ -164,7 +164,7 @@ public class Episode {
 		for (Plotter p : afterEpisodePlotters)
 			p.plot();
 
-		System.out.println("Episode " + trial.getName() + " "
+		System.out.println("[+] Episode " + trial.getName() + " "
 				+ trial.getGroup() + " " + trial.getSubjectName() + " "
 				+ episodeNumber + " finished.");
 	}

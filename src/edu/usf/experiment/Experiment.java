@@ -47,21 +47,12 @@ public class Experiment implements Runnable {
 	public Experiment(String experimentFile, String logPath, String groupName,
 			String subjectName) {
 		// System.out.println(System.getProperty("java.class.path"));
-		System.out.println("Starting group " + groupName + " individual "
+		System.out.println("[+] Starting group " + groupName + " individual "
 				+ " in log " + logPath);
 
 		// logPath = logPath + File.separator + groupName + File.separator
 		// + subjectName + File.separator;
 		logPath = logPath + "/";
-
-		// Halt execution if log folder is already there
-		File file = new File(logPath);
-		if (file.exists()) {
-			System.err.println("Logpath already exists. Cannot execute.");
-			// System.exit(1);
-		} else {
-			file.mkdirs();
-		}
 
 		PropertyHolder props = PropertyHolder.getInstance();
 		props.setProperty("log.directory", logPath);
@@ -84,12 +75,12 @@ public class Experiment implements Runnable {
 		long seed;
 		if (root.getChildText("seed") != null){
 			seed = root.getChildLong("seed");
-			System.out.println("Using seed from xml file");
+			System.out.println("[+] Using seed from xml file");
 		} else {
 			seed = new Random().nextLong();
 		}
 		RandomSingleton.getInstance().setSeed(seed);
-		System.out.println("Using seed " + seed);
+		System.out.println("[+] Using seed " + seed);
 
 		// Load the subject using reflection and assign name and group
 		subject = SubjectLoader.getInstance().load(subjectName, groupName,
