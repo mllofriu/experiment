@@ -19,14 +19,12 @@ public class DeactivateHPCLayers extends Task {
 
 	private LinkedList<Integer> indexList;
 	private String group;
-	private float proportion;
 	private boolean remap;
 
 	public DeactivateHPCLayers(ElementWrapper params) {
 		super(params);
 
 		remap = params.getChildBoolean("remap");
-		proportion = params.getChildFloat("proportion");
 		group = params.getChildText("group");
 		String layers = params.getChildText("layers");
 		StringTokenizer tok = new StringTokenizer(layers,",");
@@ -52,7 +50,7 @@ public class DeactivateHPCLayers extends Task {
 	
 	private void perform(Subject u) {
 		if (u.getGroup().equals(group))
-			u.deactivateHPCLayers(indexList, proportion, remap);
+			u.deactivateHPCLayers(indexList, remap);
 	}
 
 
