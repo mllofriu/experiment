@@ -60,8 +60,7 @@ public class Experiment implements Runnable {
 		props.setProperty("subject", subjectName);
 
 		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml");
-		ElementWrapper root = XMLExperimentParser.loadRoot(logPath,
-				experimentFile);
+		ElementWrapper root = XMLExperimentParser.loadRoot(experimentFile);
 
 		String mazeFile = root.getChild("universe").getChild("params")
 				.getChildText("maze");

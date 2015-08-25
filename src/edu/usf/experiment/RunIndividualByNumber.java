@@ -22,7 +22,7 @@ public class RunIndividualByNumber {
 		String logPath = args[1];
 		int individual = Integer.parseInt(args[2]);
 		
-		ElementWrapper root = XMLExperimentParser.loadRoot(args[1], args[0]);
+		ElementWrapper root = XMLExperimentParser.loadRoot(args[0]);
 		
 		List<ElementWrapper> groupNodes = root.getChildren("group");
 		// Look for the group of the individual to execute
