@@ -41,11 +41,7 @@ public class XMLExperimentParser {
 		return res;
 	}
 
-	public static ElementWrapper loadRoot(String logPath, String experimentFile) {
-		// Read experiments from xml file
-		String fullExpFileName = logPath + "experiment.xml";
-		//IOUtils.copyFile(experimentFile, fullExpFileName);
-
+	public static ElementWrapper loadRoot(String experimentFile) {
 		// Read experiment file
 		Document doc = XMLDocReader.readDocument(experimentFile);
 		return new ElementWrapper(doc.getDocumentElement());

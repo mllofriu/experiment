@@ -12,17 +12,22 @@ import com.vividsolutions.jts.geom.LineSegment;
 import edu.usf.experiment.Episode;
 import edu.usf.experiment.Experiment;
 import edu.usf.experiment.Trial;
+import edu.usf.experiment.robot.Robot;
+import edu.usf.experiment.robot.RobotLoader;
 import edu.usf.experiment.subject.Subject;
+import edu.usf.experiment.subject.SubjectLoader;
 import edu.usf.experiment.universe.Universe;
+import edu.usf.experiment.universe.UniverseLoader;
 import edu.usf.experiment.utils.ElementWrapper;
 import edu.usf.experiment.utils.RandomSingleton;
+import edu.usf.experiment.utils.XMLExperimentParser;
 
 public class AddSmallWallsTask extends Task {
 
-	private final float RADIUS = .4f;
+	private final float RADIUS = .40f;
 	private static final float MIN_DIST_TO_FEEDERS = 0.05f;
-	private static final float NEAR_WALL_RADIUS = .49f;
-	private static final float LENGTH = .2f;
+	private static final float NEAR_WALL_RADIUS = .45f;
+	private static final float LENGTH = .13f;
 	private static final int NUM_WALLS = 10;
 	private static final float DISTANCE_INTERIOR_WALLS = .1f;
 	private static final float MIN_DIST_TO_FEEDERS_INTERIOR = 0.1f;
@@ -61,9 +66,11 @@ public class AddSmallWallsTask extends Task {
 			noClosePoints = true;
 			for (int j = 0; j < NUM_INTERIOR_WALLS; j++) {
 				Point2f x = new Point2f();
-				x.x = (float) Math.cos(orientation + j * 2 * Math.PI / NUM_INTERIOR_WALLS)
+				x.x = (float) Math.cos(orientation + j * 2 * Math.PI
+						/ NUM_INTERIOR_WALLS)
 						* NEAR_WALL_RADIUS;
-				x.y = (float) Math.sin(orientation + j * 2 * Math.PI / NUM_INTERIOR_WALLS)
+				x.y = (float) Math.sin(orientation + j * 2 * Math.PI
+						/ NUM_INTERIOR_WALLS)
 						* NEAR_WALL_RADIUS;
 				noClosePoints = noClosePoints
 						&& univ.shortestDistanceToFeeders(x) > MIN_DIST_TO_FEEDERS;
@@ -88,8 +95,6 @@ public class AddSmallWallsTask extends Task {
 					x2.add(translation);
 				} while (x2.distance(new Point2f()) > RADIUS);
 
-				
-
 				wall = new LineSegment(new Coordinate(seed.x, seed.y),
 						new Coordinate(x2.x, x2.y));
 
@@ -100,7 +105,7 @@ public class AddSmallWallsTask extends Task {
 
 		}
 
-//		
+		//
 		// Add interior walls
 		for (int i = 0; i < NUM_WALLS - NUM_INTERIOR_WALLS; i++) {
 			Point2f firstPoint;
@@ -124,7 +129,6 @@ public class AddSmallWallsTask extends Task {
 						firstPoint.y), new Coordinate(secondPoint.x,
 						secondPoint.y));
 
-				
 			} while (firstPoint.distance(new Point2f()) > RADIUS
 					|| secondPoint.distance(new Point2f()) > RADIUS
 					|| univ.shortestDistanceToWalls(wall1) < DISTANCE_INTERIOR_WALLS
@@ -133,7 +137,27 @@ public class AddSmallWallsTask extends Task {
 			univ.addWall(wall1);
 
 		}
+
+	}
+
+	public static void main(String[] args) {
+//		for (int i = 0; i < 1000; i++){
+			ElementWrapper root = XMLExperimentParser
+					.loadRoot("src/edu/usf/ratsim/experiment/xml/multiFeedersTrainRecallSmallObs.xml");
+			Universe univ = UniverseLoader.getInstance().load(root, ".");
+			Robot robot = RobotLoader.getInstance().load(root);
+			Subject subject = SubjectLoader.getInstance().load("a", "a",
+					root.getChild("model"), robot);
+			new AddSmallWallsTask(null).perform(univ, subject);
+			System.out.println("walls added");
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.exit(0);
+//		}
 		
-//		sub.restoreExploration();
 	}
 }
