@@ -29,7 +29,7 @@ public class AddSmallWallsTask extends Task {
 	private static final float LENGTH = .125f;
 	private static final int NUM_WALLS = 16;
 	private static final float NEAR_WALL_RADIUS = .45f;
-	private static final float DISTANCE_INTERIOR_WALLS = .1f;
+	private static final float DISTANCE_INTERIOR_WALLS = .05f;
 	private static final float MIN_DIST_TO_FEEDERS_INTERIOR = 0.1f;
 	private static final double NUM_INTERIOR_WALLS = 6;
 
@@ -141,7 +141,7 @@ public class AddSmallWallsTask extends Task {
 	}
 
 	public static void main(String[] args) {
-//		for (int i = 0; i < 1000; i++){
+		for (int i = 0; i < 10000; i++){
 			ElementWrapper root = XMLExperimentParser
 					.loadRoot("src/edu/usf/ratsim/experiment/xml/multiFeedersTrainRecallSmallObs.xml");
 			Universe univ = UniverseLoader.getInstance().load(root, ".");
@@ -150,14 +150,14 @@ public class AddSmallWallsTask extends Task {
 					root.getChild("model"), robot);
 			new AddSmallWallsTask(null).perform(univ, subject);
 			System.out.println("walls added");
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.exit(0);
-//		}
-		
+//			try {
+//				Thread.sleep(3000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			
+		}
+		System.exit(0);
 	}
 }
