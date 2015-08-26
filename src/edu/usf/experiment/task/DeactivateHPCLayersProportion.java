@@ -15,16 +15,16 @@ import edu.usf.experiment.utils.ElementWrapper;
  * @author ludo
  *
  */
-public class DeactivateHPCLayers extends Task {
+public class DeactivateHPCLayersProportion extends Task {
 
 	private LinkedList<Integer> indexList;
 	private String group;
-	private boolean remap;
+	private float proportion;
 
-	public DeactivateHPCLayers(ElementWrapper params) {
+	public DeactivateHPCLayersProportion(ElementWrapper params) {
 		super(params);
 
-		remap = params.getChildBoolean("remap");
+		proportion = params.getChildFloat("proportion");
 		group = params.getChildText("group");
 		String layers = params.getChildText("layers");
 		StringTokenizer tok = new StringTokenizer(layers,",");
@@ -50,7 +50,7 @@ public class DeactivateHPCLayers extends Task {
 	
 	private void perform(Subject u) {
 		if (u.getGroup().equals(group))
-			u.deactivateHPCLayers(indexList, remap);
+			u.deactivateHPCLayersProportion(indexList, proportion);
 	}
 
 
