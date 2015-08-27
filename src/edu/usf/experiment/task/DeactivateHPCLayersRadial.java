@@ -19,13 +19,13 @@ public class DeactivateHPCLayersRadial extends Task {
 
 	private LinkedList<Integer> indexList;
 	private String group;
-	private boolean remap;
+	private float constant;
 
 	public DeactivateHPCLayersRadial(ElementWrapper params) {
 		super(params);
 
-		remap = params.getChildBoolean("remap");
 		group = params.getChildText("group");
+		constant = params.getChildFloat("constant");
 		String layers = params.getChildText("layers");
 		StringTokenizer tok = new StringTokenizer(layers,",");
 		indexList = new LinkedList<Integer>();
@@ -50,7 +50,7 @@ public class DeactivateHPCLayersRadial extends Task {
 	
 	private void perform(Subject u) {
 		if (u.getGroup().equals(group))
-			u.deactivateHPCLayersRadial(indexList);
+			u.deactivateHPCLayersRadial(indexList, constant);
 	}
 
 
