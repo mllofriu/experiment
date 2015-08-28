@@ -63,8 +63,8 @@ public class AddFixedSmallWallsTask extends Task {
 		
 		addInnerWall(-.25,.25, Math.PI/8, univ);
 		addInnerWall(-.1,.2, 12*Math.PI/8, univ);
-		addInnerWall(0,0, 3*Math.PI/8, univ);
-		addInnerWall(-.3,0, 5*Math.PI/8, univ);
+		addInnerWall(0.05,0.05, 3*Math.PI/8, univ);
+		addInnerWall(-.3,-.1, 5*Math.PI/8, univ);
 		addInnerWall(-.1,-.2, 0*Math.PI/8, univ);
 		addInnerWall(.25,.05, 0*Math.PI/8, univ);
 		addInnerWall(-.25,-.1, Math.PI/8, univ);
