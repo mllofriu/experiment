@@ -35,6 +35,8 @@ public abstract class Universe {
 
 	private List<Wall> innerWalls;
 
+	private List<Wall> wallsToRevert;
+
 
 	public Universe(ElementWrapper params, String logPath) {
 		CLOSE_TO_FOOD_THRS = params.getChildFloat("closeToFoodThrs");
@@ -95,6 +97,7 @@ public abstract class Universe {
 			i++;
 		}
 		
+		wallsToRevert = new LinkedList<Wall>();
 	}
 
 	// Boundaries
@@ -304,7 +307,9 @@ public abstract class Universe {
 	}
 
 	public void addWall(float x, float y, float x2, float y2) {
-		walls.add(new Wall(x, y, x2, y2));
+		Wall wall = new Wall(x, y, x2, y2);
+		wallsToRevert.add(wall);
+		walls.add(wall);
 	}
 
 	public float shortestDistanceToWalls(Point2f x1) {
@@ -330,7 +335,9 @@ public abstract class Universe {
 	}
 
 	public void addWall(LineSegment segment) {
-		walls.add(new Wall(segment));
+		Wall wall = new Wall(segment);
+		wallsToRevert.add(wall);
+		walls.add(wall);
 	}
 	
 	public boolean wallIntersectsOtherWalls(LineSegment wall) {
@@ -358,6 +365,29 @@ public abstract class Universe {
 
 	public boolean isFeederEnabled(int feeder) {
 		return feeders.get(feeder).isEnabled();
+	}
+
+	public float shortestDistanceToFeeders(LineSegment wall) {
+		double distance = Float.MAX_VALUE;
+		for (Feeder f : feeders){
+			Coordinate p = new Coordinate(f.getPosition().x, f.getPosition().y);
+			if (wall.distance(p) < distance)
+				distance = wall.distance(p);
+		}
+		return (float) distance;
+	}
+
+	public void removeWall(LineSegment wall) {
+		walls.remove(wall);
+	}
+
+	public void setRevertWallPoint() {
+		wallsToRevert.clear();
+	}
+
+	public void revertWalls() {
+		for (Wall w : wallsToRevert)
+			walls.remove(w);
 	}
 
 }
