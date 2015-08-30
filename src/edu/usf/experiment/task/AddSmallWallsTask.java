@@ -174,11 +174,6 @@ public class AddSmallWallsTask extends Task {
 			Robot robot = RobotLoader.getInstance().load(root);
 			Subject subject = SubjectLoader.getInstance().load("a", "a",
 					root.getChild("model"), robot);
-//			Random random = RandomSingleton.getInstance();
-////			long seed = new Random().nextLong();
-//			long seed = -275939172335459893l;
-//			System.out.println("Using seed " + seed);
-//			random.setSeed(seed);
 			AddSmallWallsTask t = new AddSmallWallsTask(null);
 			while (!t.perform(univ, subject));
 			System.out.println("walls added");
