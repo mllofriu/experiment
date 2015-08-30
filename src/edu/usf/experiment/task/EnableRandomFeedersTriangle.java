@@ -18,7 +18,6 @@ import edu.usf.experiment.utils.RandomSingleton;
  */
 public class EnableRandomFeedersTriangle extends Task {
 
-	private int numFeeders;
 	private Random r;
 
 	public EnableRandomFeedersTriangle(ElementWrapper params) {
@@ -47,10 +46,9 @@ public class EnableRandomFeedersTriangle extends Task {
 		int numFeeders = feeders.size();
 		
 		int first = r.nextInt(numFeeders);
-//		int first = 0;
 		toEnable.add(first);
 		toEnable.add((first + 2) % numFeeders);
-		toEnable.add((first + 5) % numFeeders);
+		toEnable.add((first + 4) % numFeeders);
 		
 		for (Integer f : toEnable)
 			u.setEnableFeeder(f, true);
