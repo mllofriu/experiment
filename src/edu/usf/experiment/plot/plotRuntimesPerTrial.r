@@ -12,7 +12,7 @@ plotArrival <- function(pathData, plotName){
   p <- p + ylab("Num. of Steps") + xlab("Group") 
   p <- p + theme(legend.text = element_text(size=16), legend.title = element_text(size=16), text = element_text(size=16)) 
   p <- p + theme(legend.position = c(1, 1), legend.justification = c(1, 1), legend.background = element_rect(colour = NA, fill = NA))
-  box <- p + geom_boxplot(aes(fill=group),position=position_dodge(1),outlier.size = 0) + geom_jitter()
+  box <- p + geom_boxplot(aes(fill=group),position=position_dodge(1), notch=TRUE)# + geom_jitter()
   ggsave(plot=box,filename=paste(plotName, "box.", pathData[1,'trial'],".pdf", sep=''), width=10, height=10)
   
   bar <- ggplot(summarizedRunTimes, aes(x=group, y = mRT)) 
