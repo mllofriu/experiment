@@ -1,6 +1,5 @@
 package edu.usf.experiment;
 
-import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -46,6 +45,21 @@ public class Experiment implements Runnable {
 
 	public Experiment(String experimentFile, String logPath, String groupName,
 			String subjectName) {
+		logPath = logPath + "/";
+		
+		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml");
+		ElementWrapper root = XMLExperimentParser.loadRoot(experimentFile);
+
+		setup(root, logPath, groupName, subjectName);
+	}
+	
+	public Experiment(ElementWrapper root, String logPath, String groupName,
+			String subName) {
+		setup(root, logPath, groupName, subName);
+	}
+
+	private void setup(ElementWrapper root, String logPath, String groupName,
+			String subjectName) {
 		// System.out.println(System.getProperty("java.class.path"));
 		System.out.println("[+] Starting group " + groupName + " individual "
 				+ " in log " + logPath);
@@ -58,10 +72,7 @@ public class Experiment implements Runnable {
 		props.setProperty("log.directory", logPath);
 		props.setProperty("group", groupName);
 		props.setProperty("subject", subjectName);
-
-		IOUtils.copyFile(experimentFile, logPath + "/experiment.xml");
-		ElementWrapper root = XMLExperimentParser.loadRoot(experimentFile);
-
+		
 		String mazeFile = root.getChild("universe").getChild("params")
 				.getChildText("maze");
 		IOUtils.copyFile(mazeFile, logPath + "/maze.xml");
@@ -72,7 +83,7 @@ public class Experiment implements Runnable {
 		Robot robot = RobotLoader.getInstance().load(root);
 
 		long seed;
-		if (root.getChildText("seed") != null){
+		if (root.getChildText("seed") != null) {
 			seed = root.getChildLong("seed");
 			System.out.println("[+] Using seed from xml file");
 		} else {
@@ -113,7 +124,7 @@ public class Experiment implements Runnable {
 		// Do all before trial tasks
 		for (Task task : beforeTasks)
 			task.perform(this);
-		for (Logger logger : beforeLoggers){
+		for (Logger logger : beforeLoggers) {
 			logger.log(this);
 			logger.finalizeLog();
 		}
@@ -128,7 +139,7 @@ public class Experiment implements Runnable {
 		for (Task task : afterTasks)
 			task.perform(this);
 		// Log and finalize
-		for (Logger logger : afterLoggers){
+		for (Logger logger : afterLoggers) {
 			logger.log(this);
 			logger.finalizeLog();
 		}

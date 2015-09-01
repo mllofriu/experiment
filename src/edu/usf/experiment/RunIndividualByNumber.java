@@ -24,6 +24,12 @@ public class RunIndividualByNumber {
 		
 		ElementWrapper root = XMLExperimentParser.loadRoot(args[0]);
 		
+		runIndividualByNumber(root, logPath, individual);
+		
+	}
+
+	public static void runIndividualByNumber(ElementWrapper root,
+			String logPath, int individual) {
 		List<ElementWrapper> groupNodes = root.getChildren("group");
 		// Look for the group of the individual to execute
 		for (ElementWrapper gNode : groupNodes) {
@@ -36,13 +42,12 @@ public class RunIndividualByNumber {
 				if (individual < 0){
 					// Get the name and create the experiment and run
 					String subName = new Integer(i).toString();
-					Experiment e = new Experiment(experimentFile, logPath, groupName, subName);
+					Experiment e = new Experiment(root, logPath, groupName, subName);
 					e.run();
 					System.exit(0);
 				}
 			}
 		}
 
-		
 	}
 }
