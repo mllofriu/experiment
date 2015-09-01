@@ -17,7 +17,7 @@ public class CSVConverter extends Plotter {
 		URL resource = getClass().getResource("/edu/usf/experiment/plot/convert.r");
 		IOUtils.copyResource(resource,logPath + "convert.r");
 		IOUtils.exec("Rscript convert.r", logPath);
-//		IOUtils.delete(logPath + "convert.r");
+		IOUtils.delete(logPath + "convert.r");
 	}
 
 }

@@ -103,8 +103,9 @@ public class Episode {
 
 		// Execute cycles until stop condition holds
 		boolean finished = false;
-		int numCycles = 0;
+		int cycle = 0;
 		while (!finished) {
+			props.setProperty("cycle", new Integer(cycle).toString());
 			for (Logger l : beforeCycleLoggers)
 				l.log(this);
 			for (Task t : beforeCycleTasks)
@@ -125,10 +126,10 @@ public class Episode {
 			if (Debug.printEndCycle)
 				System.out.println("End cycle");
 
-			numCycles++;
-			if (numCycles % 1000 == 0)
+			cycle++;
+			if (cycle % 1000 == 0)
 				System.out.print(".");
-			if (numCycles % 5000 == 0)
+			if (cycle % 5000 == 0)
 				System.out.println("");
 
 			if (!finished && sleep != 0)
